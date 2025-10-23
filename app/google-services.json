@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "201681236081",
+    "project_id": "ahoracado",
+    "storage_bucket": "ahoracado.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:201681236081:android:7c63bcd31ff6c58755ebd0",
+        "android_client_info": {
+          "package_name": "antonio.femxa.appfinal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJE8XhzhFqx3eOgWPi_3_KwfqdocPp9VA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
