@@ -5,14 +5,14 @@ plugins {
 
 android {
     namespace = "antonio.femxa.appfinal"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "antonio.femxa.appfinal"
         minSdk = 21
-        targetSdk = 34
-        versionCode = 3
-        versionName = "2.1 REVIVAL"
+        targetSdk = 36
+        versionCode = 5
+        versionName = "3.0 REFIX"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
