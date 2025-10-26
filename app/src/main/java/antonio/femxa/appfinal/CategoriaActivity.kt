@@ -16,16 +16,39 @@ import androidx.appcompat.app.AppCompatActivity
 
 class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var spCategorias: Spinner? = null
-    private var mediaPlayer: MediaPlayer? = null
+//    private var mediaPlayer: MediaPlayer? = null
     private var intent: Intent? = null
-    private var musicaOnOff: Boolean = false
+//    private var musicaOnOff: Boolean = false
+    private var musicaOnOff: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_categoria)
+
+        musicaOnOff = intent?.getBooleanExtra("SonidoOn-Off", true) ?: true
+
         this.spCategorias = findViewById<View>(R.id.spinner_categorias) as Spinner
 
         loadSpinnerCategorias()
+
+        val botonSonido = findViewById<ImageButton>(R.id.btnImagen)
+
+        if (musicaOnOff) {
+            SonidoGestion.iniciarMusica(this, R.raw.inicio)
+            botonSonido.setImageResource(R.drawable.ic_volume_up)
+        } else {
+            botonSonido.setImageResource(R.drawable.ic_volume_off)
+        }
+
+        botonSonido.setOnClickListener {
+            if (SonidoGestion.musicaSonando()) {
+                SonidoGestion.pausarMusica()
+                botonSonido.setImageResource(R.drawable.ic_volume_off)
+            } else {
+                SonidoGestion.iniciarMusica(this, R.raw.inicio)
+                botonSonido.setImageResource(R.drawable.ic_volume_up)
+            }
+        }
 
 
         //programo el evento de botón hacia atrás
@@ -33,11 +56,13 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
             override fun handleOnBackPressed() {
                 intent = Intent(this@CategoriaActivity, InicialActivity::class.java)
 
-                if (musicaOnOff) {
-                    intent!!.putExtra("SonidoOn-Off", true)
-                } else {
-                    intent!!.putExtra("SonidoOn-Off", false)
-                }
+//                if (musicaOnOff) {
+//                    intent!!.putExtra("SonidoOn-Off", true)
+//                } else {
+//                    intent!!.putExtra("SonidoOn-Off", false)
+//                }
+
+                intent?.putExtra("SonidoOn-Off", SonidoGestion.musicaSonando())
 
                 startActivity(intent)
             }
@@ -49,26 +74,31 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
      */
     override fun onResume() {
         super.onResume()
+
+        if (musicaOnOff && !SonidoGestion.musicaSonando()) {
+            SonidoGestion.iniciarMusica(this, R.raw.inicio)
+        }
+
         val spinner = findViewById<View>(R.id.spinner_categorias) as Spinner
         spinner.setSelection(0)
 
-        musicaOnOff = getIntent().getBooleanExtra("SonidoOn-Off", true)
+//        musicaOnOff = getIntent().getBooleanExtra("SonidoOn-Off", true)
 
         val v = findViewById<View>(R.id.btnImagen)
         val ib = v as ImageButton
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.inicio)
-        mediaPlayer!!.isLooping = true
-        mediaPlayer!!.setVolume(100f, 100f)
-
-        if (musicaOnOff) {
-            mediaPlayer!!.start()
-            ib.setImageResource(R.drawable.ic_volume_off)
-        } else {
-            ib.setImageResource(R.drawable.ic_volume_up)
-        }
-
-        ponerMusica()
+//        mediaPlayer = MediaPlayer.create(this, R.raw.inicio)
+//        mediaPlayer!!.isLooping = true
+//        mediaPlayer!!.setVolume(100f, 100f)
+//
+//        if (musicaOnOff) {
+//            mediaPlayer!!.start()
+//            ib.setImageResource(R.drawable.ic_volume_off)
+//        } else {
+//            ib.setImageResource(R.drawable.ic_volume_up)
+//        }
+//
+//        ponerMusica()
     }
 
     override fun onPause() {
@@ -76,9 +106,11 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
         val v = findViewById<View>(R.id.btnImagen)
         val ib = v as ImageButton
 
-        mediaPlayer!!.stop()
+//        mediaPlayer!!.stop()
 
-        if (!musicaOnOff) ib.setImageResource(R.drawable.ic_volume_up)
+        //if (!musicaOnOff) ib.setImageResource(R.drawable.ic_volume_up)
+
+        SonidoGestion.pausarMusica()
     }
 
     /**
@@ -153,28 +185,28 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
     }
 
 
-    fun ponerMusica() {
-        super.onStart()
-
-
-        val v = findViewById<View>(R.id.btnImagen)
-        val ib = v as ImageButton
-
-        ib.setOnClickListener {
-            if (mediaPlayer!!.isPlaying) {
-                mediaPlayer!!.pause()
-                ib.setImageResource(R.drawable.ic_volume_off)
-                musicaOnOff = false
-            } else {
-                ib.setImageResource(R.drawable.ic_volume_up)
-                mediaPlayer = MediaPlayer.create(this@CategoriaActivity, R.raw.inicio)
-                mediaPlayer!!.isLooping = true
-                mediaPlayer!!.setVolume(100f, 100f)
-                mediaPlayer!!.start()
-                musicaOnOff = true
-            }
-        }
-    }
+//    fun ponerMusica() {
+//        super.onStart()
+//
+//
+//        val v = findViewById<View>(R.id.btnImagen)
+//        val ib = v as ImageButton
+//
+//        ib.setOnClickListener {
+//            if (mediaPlayer!!.isPlaying) {
+//                mediaPlayer!!.pause()
+//                ib.setImageResource(R.drawable.ic_volume_off)
+//                musicaOnOff = false
+//            } else {
+//                ib.setImageResource(R.drawable.ic_volume_up)
+//                mediaPlayer = MediaPlayer.create(this@CategoriaActivity, R.raw.inicio)
+//                mediaPlayer!!.isLooping = true
+//                mediaPlayer!!.setVolume(100f, 100f)
+//                mediaPlayer!!.start()
+//                musicaOnOff = true
+//            }
+//        }
+//    }
 
 
 

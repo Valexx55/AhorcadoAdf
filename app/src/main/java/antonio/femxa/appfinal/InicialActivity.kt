@@ -12,8 +12,11 @@ import androidx.appcompat.app.AppCompatActivity
 
 
 class InicialActivity : AppCompatActivity() {
-     var mediaPlayer: MediaPlayer? = null
-     var musicaOnOff: Boolean = false
+
+//     var mediaPlayer: MediaPlayer? = null
+//     var musicaOnOff: Boolean = false
+
+    private var musicaOnOff: Boolean = true
 
     /**
      * TODO SPLASHSCREEN - VALE
@@ -42,40 +45,61 @@ class InicialActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inicial)
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.inicio1)
-        mediaPlayer!!.isLooping = true
-        mediaPlayer!!.setVolume(100f, 100f)
+//        mediaPlayer = MediaPlayer.create(this, R.raw.inicio1)
+//        mediaPlayer!!.isLooping = true
+//        mediaPlayer!!.setVolume(100f, 100f)
 
         //ponerTexto()
 
        musicaOnOff = intent.getBooleanExtra("SonidoOn-Off", true)
 
-        val ib = findViewById<Button>(R.id.botonsonido)
-
+        val botonSonido = findViewById<Button>(R.id.botonsonido)
 
         if (musicaOnOff) {
-            mediaPlayer!!.start()
+            SonidoGestion.iniciarMusica(this, R.raw.inicio1)
+            botonSonido.text = "SONIDO OFF"
+        } else {
+            botonSonido.text = "SONIDO ON"
         }
 
-
-        ib.setOnClickListener {
-            if (mediaPlayer!!.isPlaying) {
-                mediaPlayer!!.pause()
-                ib.text = "SONIDO ON"
-                musicaOnOff = false
+        botonSonido.setOnClickListener {
+            musicaOnOff = !SonidoGestion.musicaSonando()
+            if (SonidoGestion.musicaSonando()) {
+                SonidoGestion.pausarMusica()
+                botonSonido.text = "SONIDO ON"
             } else {
-                ib.text = "SONIDO OFF"
-                mediaPlayer!!.start()
-                musicaOnOff = true
+                SonidoGestion.iniciarMusica(this, R.raw.inicio1)
+                botonSonido.text = "SONIDO OFF"
             }
         }
 
-        //botón hacia atrás
+//        val ib = findViewById<Button>(R.id.botonsonido)
+//
+//
+//        if (musicaOnOff) {
+//            mediaPlayer!!.start()
+//        }
+//
+//
+//        ib.setOnClickListener {
+//            if (mediaPlayer!!.isPlaying) {
+//                mediaPlayer!!.pause()
+//                ib.text = "SONIDO ON"
+//                musicaOnOff = false
+//            } else {
+//                ib.text = "SONIDO OFF"
+//                mediaPlayer!!.start()
+//                musicaOnOff = true
+//            }
+//        }
+//
+//        //botón hacia atrás
 
         //acción botón hacia atrás
         onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 finishAffinity()
+                SonidoGestion.detenerMusica()  // detengo musica
             }
         })
     }
@@ -86,11 +110,12 @@ class InicialActivity : AppCompatActivity() {
             CategoriaActivity::class.java
         )
 
-        if (musicaOnOff) {
-            intent.putExtra("SonidoOn-Off", true)
-        } else {
-            intent.putExtra("SonidoOn-Off", false)
-        }
+//        if (musicaOnOff) {
+//            intent.putExtra("SonidoOn-Off", true)
+//        } else {
+//            intent.putExtra("SonidoOn-Off", false)
+//        }
+        intent.putExtra("SonidoOn-Off", SonidoGestion.musicaSonando())
 
         startActivity(intent)
     }
@@ -109,6 +134,21 @@ class InicialActivity : AppCompatActivity() {
     fun abrirCreditos(v: View?) {
         val intent = Intent(this, CreditosActivity::class.java)
         startActivity(intent)
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        // Si quieres que se pause la música al salir temporalmente de la app:
+        // SonidoGestion.pausarMusica()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Si estaba activa antes, reanuda
+        if (musicaOnOff && !SonidoGestion.musicaSonando()) {
+            SonidoGestion.iniciarMusica(this, R.raw.inicio1)
+        }
     }
 
     //fun sonidoOnOff(view: View) {}

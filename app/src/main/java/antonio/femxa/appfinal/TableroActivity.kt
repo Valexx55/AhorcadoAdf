@@ -19,6 +19,8 @@ import java.util.Locale
 
 
 class TableroActivity : AppCompatActivity() {
+
+
     private var palabra: String? = null
     private var palabraAux: String? = null
     private val array_pics = intArrayOf(
@@ -33,13 +35,15 @@ class TableroActivity : AppCompatActivity() {
     private var tamaño_palabra: Int = 0
     private var contador_aciertos: Int = 0
     private var intent: Intent? = null
-    private var sonidoOnOff: Boolean = false
+    //private var sonidoOnOff: Boolean = false
+    private var musicaOnOff: Boolean = true
     private var mediaPlayer: MediaPlayer? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tablero)
+
         val v = findViewById<View>(R.id.btnImagen)
         val ib = v as ImageButton
 
@@ -53,23 +57,43 @@ class TableroActivity : AppCompatActivity() {
         mediaPlayer!!.isLooping = true
         mediaPlayer!!.setVolume(100f, 100f)
 
-        sonidoOnOff = getIntent().getBooleanExtra("SonidoOn-Off", true)
+        //sonidoOnOff = getIntent().getBooleanExtra("SonidoOn-Off", true)
+        musicaOnOff = intent?.getBooleanExtra("SonidoOn-Off", true) ?: true
 
-        if (sonidoOnOff) {
-            mediaPlayer!!.start()
+        val botonSonido = findViewById<ImageButton>(R.id.btnImagen)
+
+        if (musicaOnOff) {
+            SonidoGestion.iniciarMusica(this, R.raw.inicio)
+            botonSonido.setImageResource(R.drawable.ic_volume_up)
         } else {
-            ib.setImageResource(R.drawable.ic_volume_off)
+            botonSonido.setImageResource(R.drawable.ic_volume_off)
         }
 
-        ib.setOnClickListener {
-            if (mediaPlayer!!.isPlaying) {
-                mediaPlayer!!.pause()
-                ib.setImageResource(R.drawable.ic_volume_off)
+        botonSonido.setOnClickListener {
+            if (SonidoGestion.musicaSonando()) {
+                SonidoGestion.pausarMusica()
+                botonSonido.setImageResource(R.drawable.ic_volume_off)
             } else {
-                ib.setImageResource(R.drawable.ic_volume_up)
-                mediaPlayer!!.start()
+                SonidoGestion.iniciarMusica(this, R.raw.inicio)
+                botonSonido.setImageResource(R.drawable.ic_volume_up)
             }
         }
+
+//        if (sonidoOnOff) {
+//            mediaPlayer!!.start()
+//        } else {
+//            ib.setImageResource(R.drawable.ic_volume_off)
+//        }
+//
+//        ib.setOnClickListener {
+//            if (mediaPlayer!!.isPlaying) {
+//                mediaPlayer!!.pause()
+//                ib.setImageResource(R.drawable.ic_volume_off)
+//            } else {
+//                ib.setImageResource(R.drawable.ic_volume_up)
+//                mediaPlayer!!.start()
+//            }
+//        }
 
 
         palabraAux = palabra
@@ -347,7 +371,8 @@ class TableroActivity : AppCompatActivity() {
 
             intent!!.putExtra("palabra_clave", palabra)
 
-            intent!!.putExtra("SonidoOn-Off", sonidoOnOff)
+            //intent!!.putExtra("SonidoOn-Off", sonidoOnOff)
+            intent?.putExtra("SonidoOn-Off", SonidoGestion.musicaSonando())
 
             startActivity(intent)
         }
@@ -368,7 +393,8 @@ class TableroActivity : AppCompatActivity() {
 
             intent!!.putExtra("palabra_clave", palabra)
 
-            intent!!.putExtra("SonidoOn-Off", sonidoOnOff)
+            //intent!!.putExtra("SonidoOn-Off", sonidoOnOff)
+            intent?.putExtra("SonidoOn-Off", SonidoGestion.musicaSonando())
 
             startActivity(intent)
         } else {
@@ -422,6 +448,7 @@ class TableroActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        mediaPlayer!!.stop()
+        //mediaPlayer!!.stop()
+        SonidoGestion.pausarMusica()
     }
 }

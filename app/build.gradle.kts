@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "antonio.femxa.appfinal"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 36
         versionCode = 5
         versionName = "3.0 REFIX"
