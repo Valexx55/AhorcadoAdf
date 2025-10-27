@@ -1,6 +1,7 @@
 package antonio.femxa.appfinal
 
 //import android.R
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.media.MediaPlayer
@@ -10,12 +11,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.GridLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import java.util.Locale
+import android.view.ContextThemeWrapper
+
 
 
 class TableroActivity : AppCompatActivity() {
@@ -35,6 +39,7 @@ class TableroActivity : AppCompatActivity() {
     private var intent: Intent? = null
     private var sonidoOnOff: Boolean = false
     private var mediaPlayer: MediaPlayer? = null
+    private val letras:List<Char> = listOf('A','B','C','D','E','F','G','H','I','J','K','L','M','N','Ñ','O','P','Q','R','S','T','U','V','W','X','Y','Z') // Letras que componen el teclado
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,6 +104,22 @@ class TableroActivity : AppCompatActivity() {
         val categoria = getIntent().getStringExtra("categoria_seleccionada")
 
         textViewCategoria.text = categoria
+
+        dibujarTeclado(letras)
+    }
+
+    /**
+     * Dibuja el teclado del juego.
+     * @param letras las letras que conforman la distribución del teclado.
+     */
+    private fun dibujarTeclado(letras:List<Char>)
+    {
+        val gridLayout = findViewById<GridLayout>(R.id.teclado)
+
+        letras.forEachIndexed { index, letra ->
+            val tecla = crearTecla(letra, index, this)
+            gridLayout.addView(tecla)
+        }
     }
 
     fun mostrarLetra(letra: String, palabra: String) {
@@ -338,6 +359,7 @@ class TableroActivity : AppCompatActivity() {
      */
     fun letraAcertada(button: Button) {
         button.setTextColor(Color.rgb(34, 153, 84))
+        button.setBackgroundColor(Color.TRANSPARENT)
 
         Log.d("MENSAJE", "$contador_aciertos contador")
         Log.d("MENSAJE", "$tamaño_palabra tamaño")
@@ -360,6 +382,7 @@ class TableroActivity : AppCompatActivity() {
      */
     fun letraFallada(button: Button) {
         button.setTextColor(Color.RED)
+        button.setBackgroundColor(Color.TRANSPARENT)
         button.isEnabled = false
         contador++
 
@@ -424,4 +447,36 @@ class TableroActivity : AppCompatActivity() {
         super.onPause()
         mediaPlayer!!.stop()
     }
+
+    /**
+     * Dado un carácter, crea la tecla correspondiente del teclado a mostrar en el layout
+     * @param letra la letra de la tecla
+     * @param tag etiqueta asociada a la tecla
+     * @param context contexto del teclado
+     * @return La tecla creada.
+     */
+    fun crearTecla(letra: Char, tag: Int, context: Context): Button
+    {
+        val themedContext = ContextThemeWrapper(context, R.style.EstiloTecla)
+        val button = Button(themedContext, null, R.style.EstiloTecla)
+
+        button.text = letra.toString()
+        button.tag = tag
+        button.setOnClickListener{escribirNumero(it)}
+
+        // Margen y distribución en GridLayout
+        val params = GridLayout.LayoutParams().apply {
+            width = 0
+            height = GridLayout.LayoutParams.WRAP_CONTENT
+            columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
+            rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
+            setMargins(4, 4, 4, 4)
+        }
+
+        button.layoutParams = params
+        Log.d("MENSAJE", "crearTecla: Tecla ${button.text} creada")
+
+        return button
+    }
+
 }
