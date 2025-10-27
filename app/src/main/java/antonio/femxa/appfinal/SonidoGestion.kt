@@ -1,71 +1,80 @@
 package antonio.femxa.appfinal
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.media.MediaPlayer
 
-/**
- * Clase Object singleton que gestiona la música de fondo en toda la aplicación.
- * Se encarga de reproducir, pausar, detener y cambiar la música según la actividad.
- */
 object SonidoGestion {
 
     private var mediaPlayer: MediaPlayer? = null
-    private var estaSonando = false
-    private var sonidoActualResId: Int? = null
+    private var recursoActual: Int? = null
+    private var sonando = false
 
-    fun iniciarMusica(context: Context, resId: Int) {
-        // Si ya está sonando la misma música, no reiniciamos
-        if (estaSonando && sonidoActualResId == resId) return
+    private const val PREFS_NAME = "preferencias_sonido"
+    private const val KEY_SONIDO_ACTIVO = "sonido_activo"
 
-        detenerMusica() // detiene cualquier sonido anterior si lo hubiese
+    // --- CONTROL DE MÚSICA ---
 
-        mediaPlayer = MediaPlayer.create(context.applicationContext, resId)
-        mediaPlayer?.isLooping = true
-        mediaPlayer?.setVolume(1.0f, 1.0f)
-        mediaPlayer?.start()
+    fun iniciarMusica(context: Context, idRecurso: Int) {
+        if (!obtenerEstadoSonido(context)) return
 
-        estaSonando = true
-        sonidoActualResId = resId
+        if (recursoActual != idRecurso) {
+            detenerMusica()
+            mediaPlayer = MediaPlayer.create(context, idRecurso)
+            recursoActual = idRecurso
+            mediaPlayer?.isLooping = true
+            mediaPlayer?.setVolume(1.0f, 1.0f)
+            mediaPlayer?.start()
+            sonando = true
+        } else if (mediaPlayer != null && !mediaPlayer!!.isPlaying) {
+            mediaPlayer!!.start()
+            sonando = true
+        }
     }
 
     fun pausarMusica() {
-        try {
-            mediaPlayer?.let {
-                if (it.isPlaying) it.pause()
-            }
-        } catch (_: Exception) {}
-        estaSonando = false
+        if (mediaPlayer?.isPlaying == true) {
+            mediaPlayer?.pause()
+            sonando = false
+        }
     }
-
-    // por si quisiera reanudar en pausa no uso de momento
-//    fun reanudarMusica() {
-//        mediaPlayer?.start()
-//        estaSonando = true
-//    }
 
     fun detenerMusica() {
-        try {
-            mediaPlayer?.stop()
-            mediaPlayer?.release()
-        } catch (_: Exception) {}
+        mediaPlayer?.stop()
+        mediaPlayer?.release()
         mediaPlayer = null
-        estaSonando = false
-        sonidoActualResId = null
+        recursoActual = null
+        sonando = false
     }
 
-    /**
-     * Cambia entre reproducir y pausar música. Devuelvo el estado final (true = sonando).
-     */
-    fun alternarMusica(context: Context, resId: Int): Boolean {
-        if (estaSonando) {
+    /** 🔍 Devuelve si la música está sonando actualmente */
+    fun musicaSonando(): Boolean = sonando
+
+    // --- PREFERENCIAS DEL USUARIO ---
+
+    /** Guarda el estado del sonido (true = activo, false = apagado) */
+    fun guardarEstadoSonido(context: Context, activo: Boolean) {
+        val prefs: SharedPreferences =
+            context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putBoolean(KEY_SONIDO_ACTIVO, activo).apply()
+    }
+
+    /** Obtiene el estado del sonido guardado (por defecto, true) */
+    fun obtenerEstadoSonido(context: Context): Boolean {
+        val prefs: SharedPreferences =
+            context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return prefs.getBoolean(KEY_SONIDO_ACTIVO, true)
+    }
+
+    /** Alterna el estado del sonido y lo guarda. Devuelve el nuevo estado. */
+    fun alternarSonido(context: Context): Boolean {
+        val nuevoEstado = !obtenerEstadoSonido(context)
+        guardarEstadoSonido(context, nuevoEstado)
+        if (!nuevoEstado) {
             pausarMusica()
         } else {
-            iniciarMusica(context, resId)
+            recursoActual?.let { iniciarMusica(context, it) }
         }
-        return estaSonando
-    }
-
-    fun musicaSonando(): Boolean {
-        return estaSonando
+        return nuevoEstado
     }
 }

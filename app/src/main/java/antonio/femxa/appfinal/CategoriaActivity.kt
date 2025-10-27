@@ -2,7 +2,6 @@ package antonio.femxa.appfinal
 
 
 import android.content.Intent
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -20,55 +19,54 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
     private var intent: Intent? = null
 //    private var musicaOnOff: Boolean = false
     private var musicaOnOff: Boolean = true
+    private lateinit var botonSonido: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_categoria)
 
-        musicaOnOff = intent?.getBooleanExtra("SonidoOn-Off", true) ?: true
+        // --- Recuperar estado de sonido desde SharedPreferences ---
+        musicaOnOff = SonidoGestion.obtenerEstadoSonido(this)
 
         this.spCategorias = findViewById<View>(R.id.spinner_categorias) as Spinner
 
         loadSpinnerCategorias()
 
-        val botonSonido = findViewById<ImageButton>(R.id.btnImagen)
+        botonSonido = findViewById<ImageButton>(R.id.btnImagen)
 
-        if (musicaOnOff) {
-            SonidoGestion.iniciarMusica(this, R.raw.inicio)
-            botonSonido.setImageResource(R.drawable.ic_volume_up)
-        } else {
-            botonSonido.setImageResource(R.drawable.ic_volume_off)
-        }
+
+        // --- Configurar botón de sonido ---
+        actualizarIconoBotonSonido()
 
         botonSonido.setOnClickListener {
-            if (SonidoGestion.musicaSonando()) {
-                SonidoGestion.pausarMusica()
-                botonSonido.setImageResource(R.drawable.ic_volume_off)
+            val sonidoActivo = SonidoGestion.alternarSonido(this)
+            musicaOnOff = sonidoActivo
+            actualizarIconoBotonSonido()
+
+            if (sonidoActivo) {
+                SonidoGestion.iniciarMusica(this, R.raw.categoria)
             } else {
-                SonidoGestion.iniciarMusica(this, R.raw.inicio)
-                botonSonido.setImageResource(R.drawable.ic_volume_up)
+                SonidoGestion.pausarMusica()
             }
         }
 
-
-        //programo el evento de botón hacia atrás
-        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
+        // --- Botón atrás ---
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                intent = Intent(this@CategoriaActivity, InicialActivity::class.java)
-
-//                if (musicaOnOff) {
-//                    intent!!.putExtra("SonidoOn-Off", true)
-//                } else {
-//                    intent!!.putExtra("SonidoOn-Off", false)
-//                }
-
-                intent?.putExtra("SonidoOn-Off", SonidoGestion.musicaSonando())
-
+                val intent = Intent(this@CategoriaActivity, InicialActivity::class.java)
+                intent.putExtra("SonidoOn-Off", SonidoGestion.musicaSonando())
                 startActivity(intent)
+                finish()
             }
         })
-    }
 
+        // --- Iniciar música si estaba activa ---
+        if (musicaOnOff && !SonidoGestion.musicaSonando()) {
+            SonidoGestion.iniciarMusica(this, R.raw.categoria)
+        }
+
+
+    } // fin onCreate
     /**
      * Cada vez que el activity vuelva de una pausa el spinner se coloca en la posicion selecciona una categoria
      */
@@ -76,7 +74,7 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
         super.onResume()
 
         if (musicaOnOff && !SonidoGestion.musicaSonando()) {
-            SonidoGestion.iniciarMusica(this, R.raw.inicio)
+            SonidoGestion.iniciarMusica(this, R.raw.categoria)
         }
 
         val spinner = findViewById<View>(R.id.spinner_categorias) as Spinner
@@ -156,12 +154,13 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
             val aa = spinner.selectedItem.toString()
             intent!!.putExtra("categoria_seleccionada", aa)
 
-            if (musicaOnOff) {
-                intent!!.putExtra("SonidoOn-Off", true)
-            } else {
-                intent!!.putExtra("SonidoOn-Off", false)
-            }
-
+//            if (musicaOnOff) {
+//                intent!!.putExtra("SonidoOn-Off", true)
+//            } else {
+//                intent!!.putExtra("SonidoOn-Off", false)
+//            }
+ //           intent!!.putExtra("SonidoOn-Off", musicaOnOff)
+            SonidoGestion.detenerMusica()
             startActivity(intent)
         }
     }
@@ -182,6 +181,14 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
         palabra = array_especifico[aleatoria].toString()
 
         return palabra
+    }
+
+    private fun actualizarIconoBotonSonido() {
+        if (musicaOnOff) {
+            botonSonido.setImageResource(R.drawable.ic_volume_up)
+        } else {
+            botonSonido.setImageResource(R.drawable.ic_volume_off)
+        }
     }
 
 
@@ -225,4 +232,12 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
         startActivity(intent)
         super.onBackPressed()
     }*/
+
+//    override fun onStop() {
+//        super.onStop()
+//        // Si estaba activa antes, reanuda
+//        if (SonidoGestion.musicaSonando()) {
+//            SonidoGestion.detenerMusica()
+//        }
+//    }
 }

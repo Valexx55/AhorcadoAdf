@@ -2,8 +2,6 @@ package antonio.femxa.appfinal
 
 //import android.R
 import android.content.Intent
-import android.media.MediaPlayer
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -13,9 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class InicialActivity : AppCompatActivity() {
 
-//     var mediaPlayer: MediaPlayer? = null
-//     var musicaOnOff: Boolean = false
-
+    private lateinit var botonSonido: Button
     private var musicaOnOff: Boolean = true
 
     /**
@@ -45,64 +41,43 @@ class InicialActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inicial)
 
-//        mediaPlayer = MediaPlayer.create(this, R.raw.inicio1)
-//        mediaPlayer!!.isLooping = true
-//        mediaPlayer!!.setVolume(100f, 100f)
 
-        //ponerTexto()
+        botonSonido = findViewById(R.id.botonsonido)
 
-       musicaOnOff = intent.getBooleanExtra("SonidoOn-Off", true)
+        // --- Recuperar estado de sonido desde SharedPreferences ---
+        musicaOnOff = SonidoGestion.obtenerEstadoSonido(this)
 
-        val botonSonido = findViewById<Button>(R.id.botonsonido)
+        // --- Configurar estado inicial del botón ---
+        actualizarTextoBotonSonido()
 
-        if (musicaOnOff) {
-            SonidoGestion.iniciarMusica(this, R.raw.inicio1)
-            botonSonido.text = "SONIDO OFF"
-        } else {
-            botonSonido.text = "SONIDO ON"
+        // --- Iniciar música si está activada ---
+        if (musicaOnOff && !SonidoGestion.musicaSonando()) {
+            SonidoGestion.iniciarMusica(this, R.raw.main)
         }
 
+        // --- Toggle del sonido al pulsar el botón ---
         botonSonido.setOnClickListener {
-            musicaOnOff = !SonidoGestion.musicaSonando()
-            if (SonidoGestion.musicaSonando()) {
-                SonidoGestion.pausarMusica()
-                botonSonido.text = "SONIDO ON"
+            val sonidoActivo = SonidoGestion.alternarSonido(this)
+            musicaOnOff = sonidoActivo
+            actualizarTextoBotonSonido()
+
+            if (sonidoActivo) {
+                SonidoGestion.iniciarMusica(this, R.raw.main)
             } else {
-                SonidoGestion.iniciarMusica(this, R.raw.inicio1)
-                botonSonido.text = "SONIDO OFF"
+                SonidoGestion.pausarMusica()
             }
         }
 
-//        val ib = findViewById<Button>(R.id.botonsonido)
-//
-//
-//        if (musicaOnOff) {
-//            mediaPlayer!!.start()
-//        }
-//
-//
-//        ib.setOnClickListener {
-//            if (mediaPlayer!!.isPlaying) {
-//                mediaPlayer!!.pause()
-//                ib.text = "SONIDO ON"
-//                musicaOnOff = false
-//            } else {
-//                ib.text = "SONIDO OFF"
-//                mediaPlayer!!.start()
-//                musicaOnOff = true
-//            }
-//        }
-//
-//        //botón hacia atrás
-
-        //acción botón hacia atrás
-        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
+        // --- Botón Atrás: cerrar app y detener música ---
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+                SonidoGestion.detenerMusica()
                 finishAffinity()
-                SonidoGestion.detenerMusica()  // detengo musica
             }
         })
-    }
+
+
+    }  // Fin onCreate
 
     fun aJugar(v: View?) {
         val intent = Intent(
@@ -110,13 +85,8 @@ class InicialActivity : AppCompatActivity() {
             CategoriaActivity::class.java
         )
 
-//        if (musicaOnOff) {
-//            intent.putExtra("SonidoOn-Off", true)
-//        } else {
-//            intent.putExtra("SonidoOn-Off", false)
-//        }
-        intent.putExtra("SonidoOn-Off", SonidoGestion.musicaSonando())
-
+        //intent.putExtra("SonidoOn-Off", SonidoGestion.musicaSonando())
+        SonidoGestion.detenerMusica()
         startActivity(intent)
     }
 
@@ -136,32 +106,29 @@ class InicialActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-
     override fun onPause() {
         super.onPause()
-        // Si quieres que se pause la música al salir temporalmente de la app:
-        // SonidoGestion.pausarMusica()
+        SonidoGestion.pausarMusica()
     }
 
     override fun onResume() {
         super.onResume()
         // Si estaba activa antes, reanuda
         if (musicaOnOff && !SonidoGestion.musicaSonando()) {
-            SonidoGestion.iniciarMusica(this, R.raw.inicio1)
+            SonidoGestion.iniciarMusica(this, R.raw.main)
         }
     }
 
-    //fun sonidoOnOff(view: View) {}
+    private fun actualizarTextoBotonSonido() {
+        botonSonido.text = if (musicaOnOff) "SONIDO OFF" else "SONIDO ON"
+    }
 
-    /* override fun onBackPressed() {
+//    override fun onStop() {
+//        super.onStop()
+//        // Si estaba activa antes, reanuda
+//        if (SonidoGestion.musicaSonando()) {
+//            SonidoGestion.detenerMusica()
+//        }
+//    }
 
- //super.onBackPressed();
-
-         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-             finishAffinity()
-         } else {
-             finish()
-         }
-
-     }*/
 }
