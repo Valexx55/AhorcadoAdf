@@ -13,4 +13,13 @@
         <item name="android:activityCloseEnterAnimation">@anim/fade_in</item>
         <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
     </style>
+
+    <!-- Definición de los atributos de la tecla -->
+    <style name="EstiloTecla" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/estilo_tecla</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item> <!-- Ripple -->
+    </style>
 </resources>
