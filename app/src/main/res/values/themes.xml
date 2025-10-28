@@ -56,7 +56,6 @@
         <!--<item name="android:windowBackground">@drawable/splash_background</item>-->
         <item name="windowSplashScreenBackground">@color/md_theme_primary</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_10</item>
-        <item name="windowSplashScreenAnimationDuration">10000</item>
         <!-- No parece que afecte. Aún con un icono transparente-->
         <item name="windowSplashScreenIconBackgroundColor">@color/md_theme_primaryContainer</item>
         <!-- No se puede incluir con o sin prefijo android:-->
