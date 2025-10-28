@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_Ahorcado)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inicial)
 
