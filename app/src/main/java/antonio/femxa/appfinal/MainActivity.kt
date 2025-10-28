@@ -2,8 +2,6 @@ package antonio.femxa.appfinal
 
 //import android.R
 import android.content.Intent
-import android.media.MediaPlayer
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
@@ -14,8 +12,10 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
 
 class MainActivity : AppCompatActivity() {
-     var mediaPlayer: MediaPlayer? = null
-     var musicaOnOff: Boolean = false
+
+    private lateinit var botonSonido: Button
+    private var musicaOnOff: Boolean = true
+
 
     /**
      * TODO SPLASHSCREEN - VALE
@@ -41,50 +41,46 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.Theme_Ahorcado)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inicial)
 
-        retardo()
-        animacionSalidaSplash()
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.inicio1)
-        mediaPlayer!!.isLooping = true
-        mediaPlayer!!.setVolume(100f, 100f)
+        botonSonido = findViewById(R.id.botonsonido)
 
-        //ponerTexto()
+        // --- Recuperar estado de sonido desde SharedPreferences ---
+        musicaOnOff = SonidoGestion.obtenerEstadoSonido(this)
 
-       musicaOnOff = intent.getBooleanExtra("SonidoOn-Off", true)
+        // --- Configurar estado inicial del botón ---
+        actualizarTextoBotonSonido()
 
-        val ib = findViewById<Button>(R.id.botonsonido)
-
-
-        if (musicaOnOff) {
-            mediaPlayer!!.start()
+        // --- Iniciar música si está activada ---
+        if (musicaOnOff && !SonidoGestion.musicaSonando()) {
+            SonidoGestion.iniciarMusica(this, R.raw.main)
         }
 
+        // --- Toggle del sonido al pulsar el botón ---
+        botonSonido.setOnClickListener {
+            val sonidoActivo = SonidoGestion.alternarSonido(this)
+            musicaOnOff = sonidoActivo
+            actualizarTextoBotonSonido()
 
-        ib.setOnClickListener {
-            if (mediaPlayer!!.isPlaying) {
-                mediaPlayer!!.pause()
-                ib.text = "SONIDO ON"
-                musicaOnOff = false
+            if (sonidoActivo) {
+                SonidoGestion.iniciarMusica(this, R.raw.main)
             } else {
-                ib.text = "SONIDO OFF"
-                mediaPlayer!!.start()
-                musicaOnOff = true
+                SonidoGestion.pausarMusica()
             }
         }
 
-        //botón hacia atrás
-
-        //acción botón hacia atrás
-        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
+        // --- Botón Atrás: cerrar app y detener música ---
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+                SonidoGestion.detenerMusica()
                 finishAffinity()
             }
         })
-    }
+
+
+    }  // Fin onCreate
 
     fun aJugar(v: View?) {
         val intent = Intent(
@@ -92,12 +88,8 @@ class MainActivity : AppCompatActivity() {
             CategoriaActivity::class.java
         )
 
-        if (musicaOnOff) {
-            intent.putExtra("SonidoOn-Off", true)
-        } else {
-            intent.putExtra("SonidoOn-Off", false)
-        }
-
+        //intent.putExtra("SonidoOn-Off", SonidoGestion.musicaSonando())
+        SonidoGestion.detenerMusica()
         startActivity(intent)
     }
 
@@ -117,87 +109,29 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    //fun sonidoOnOff(view: View) {}
-
-    /* override fun onBackPressed() {
-
- //super.onBackPressed();
-
-         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-             finishAffinity()
-         } else {
-             finish()
-         }
-
-     }*/
-
-    /**
-    Por defecto, cuando ya se ha dibujado la Actividad Principal, la Splash Screen
-    desaparece. Sin emabargo, al programar esta función Predraw no se pinta ningún
-    fotograma, hasta que no esta función no devuelta true. Por ejemplo
-    en este caso, estamos causando un retardo de 6 segundos y hasta que no acabe
-    la actividad no empieza a pintarse y mientras, se ve sólo la Splash Screen
-     */
-    fun retardo() {
-        // Set up an OnPreDrawListener to the root view.
-        //OJO android.R.id.content apunta al FrameLayout que contiene toda la interfaz de tu Activity.
-        //Ese content existe siempre, todos nuestros layouts montan en este Frame y sigue estando en JetPack Compose
-        val content = findViewById<View>(android.R.id.content)
-        content.viewTreeObserver.addOnPreDrawListener(
-            object : ViewTreeObserver.OnPreDrawListener {
-                override fun onPreDraw(): Boolean {
-                    // Check whether the initial data is ready.
-                    Thread.sleep(5000)
-                    return if (true) {
-                        // The content is ready. Start drawing.
-                        content.viewTreeObserver.removeOnPreDrawListener(this)
-                        true
-                    } else {
-                        // The content isn't ready. Suspend.
-                        false
-                    }
-                }
-            })
+    override fun onPause() {
+        super.onPause()
+        SonidoGestion.pausarMusica()
     }
 
-
-    /**
-     * La salidad de la SplashScreen, puede ser animada. De modo, que podemos
-     * definir un listener al finalizar su tiempo y cargar una animación
-     * como ésta
-     */
-    fun animacionSalidaSplash() {
-        //sólo para versiones anteriores
-        //también podría obtener la instancia con val splashScreen = installSplashScreen()
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            splashScreen.setOnExitAnimationListener { splashScreenView ->
-                // Create your custom animation.
-                val slideUp = ObjectAnimator.ofFloat(
-                    splashScreenView,
-                    View.TRANSLATION_X,
-                    0f,
-                    -splashScreenView.width.toFloat()
-                )
-                slideUp.interpolator = AnticipateInterpolator()
-                slideUp.duration = 20000L
-
-                // Call SplashScreenView.remove at the end of your custom animation.
-                slideUp.doOnEnd { splashScreenView.remove() }
-
-                // Run your animation.
-                slideUp.start()
-            }
-        }*/
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            splashScreen.setOnExitAnimationListener { splashScreenView ->
-                splashScreenView.iconView!!.animate()
-                    .alpha(0f)
-                    .setDuration(3000L)
-                    .withEndAction {
-                        splashScreenView.remove()
-                    }
-            }
+    override fun onResume() {
+        super.onResume()
+        // Si estaba activa antes, reanuda
+        if (musicaOnOff && !SonidoGestion.musicaSonando()) {
+            SonidoGestion.iniciarMusica(this, R.raw.main)
         }
     }
+
+    private fun actualizarTextoBotonSonido() {
+        botonSonido.text = if (musicaOnOff) "SONIDO OFF" else "SONIDO ON"
+    }
+
+//    override fun onStop() {
+//        super.onStop()
+//        // Si estaba activa antes, reanuda
+//        if (SonidoGestion.musicaSonando()) {
+//            SonidoGestion.detenerMusica()
+//        }
+//    }
+
 }
