@@ -4,13 +4,17 @@ package antonio.femxa.appfinal
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.Button
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class MainActivity : AppCompatActivity() {
@@ -47,7 +51,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_inicial)
-        retardo()
+        pruebaMuestraMapa()
+        preCargaRetardo()
         animacionSalidaSplash()
 
         botonSonido = findViewById(R.id.botonsonido)
@@ -87,6 +92,10 @@ class MainActivity : AppCompatActivity() {
 
     }  // Fin onCreate
 
+    private fun pruebaMuestraMapa() {
+       Log.d("MIAPP", "DATOS MAPA =  ${PalabrasRepository.getMapaPalabras()} ")
+    }
+
     fun aJugar(v: View?) {
         val intent = Intent(
             this,
@@ -97,17 +106,6 @@ class MainActivity : AppCompatActivity() {
         SonidoGestion.detenerMusica()
         startActivity(intent)
     }
-
-//    fun ponerTexto() {
-//        val v1 = findViewById<View>(R.id.botonsonido)
-//        val ib = v1 as Button
-//
-//        val v2 = findViewById<View>(R.id.botoncreditos)
-//        val ib2 = v2 as Button
-//
-//        ib.text = "SONIDO OFF"
-//        ib2.text = "CREDITOS"
-//    }
 
     fun abrirCreditos(v: View?) {
         val intent = Intent(this, CreditosActivity::class.java)
@@ -121,6 +119,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        pruebaMuestraMapa()
         // Si estaba activa antes, reanuda
         if (musicaOnOff && !SonidoGestion.musicaSonando()) {
             SonidoGestion.iniciarMusica(this, R.raw.main)
@@ -138,26 +137,41 @@ class MainActivity : AppCompatActivity() {
     en este caso, estamos causando un retardo de 6 segundos y hasta que no acabe
     la actividad no empieza a pintarse y mientras, se ve sólo la Splash Screen
      */
-    fun retardo() {
+    fun preCargaRetardo() {
         // Set up an OnPreDrawListener to the root view.
         //OJO android.R.id.content apunta al FrameLayout que contiene toda la interfaz de tu Activity.
         //Ese content existe siempre, todos nuestros layouts montan en este Frame y sigue estando en JetPack Compose
         val content = findViewById<View>(android.R.id.content)
+         var datosListos = false
+         var cargaLanzada = false
         content.viewTreeObserver.addOnPreDrawListener(
             object : ViewTreeObserver.OnPreDrawListener {
                 override fun onPreDraw(): Boolean {
-                    // Check whether the initial data is ready.
-                    Thread.sleep(1200)
-                    return if (true) {
-                        // The content is ready. Start drawing.
+
+                    if (datosListos) {
                         content.viewTreeObserver.removeOnPreDrawListener(this)
-                        true
-                    } else {
-                        // The content isn't ready. Suspend.
-                        false
+                        return true // ahora sí, permitir dibujo
                     }
+
+                    if (!cargaLanzada) {
+                        cargaLanzada = true
+                        lifecycleScope.launch {
+                            try {
+                                withContext(Dispatchers.IO) {
+                                    PalabrasRepository.preCargarPalabras()
+                                }
+                                datosListos = true
+                                content.invalidate() // fuerza nuevo preDraw
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                // Maneja error: podrías mostrar un mensaje o reintentar
+                            }
+                        }
+                    }
+                    return false // suspende el primer dibujo hasta que se completen los datos
                 }
-            })
+            }
+        )
     }
 
 
@@ -200,13 +214,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-//    override fun onStop() {
-//        super.onStop()
-//        // Si estaba activa antes, reanuda
-//        if (SonidoGestion.musicaSonando()) {
-//            SonidoGestion.detenerMusica()
-//        }
-//    }
 
 }
