@@ -4,7 +4,6 @@ package antonio.femxa.appfinal
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -16,6 +15,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TableRow
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import java.util.Locale
 import android.view.ContextThemeWrapper
@@ -23,7 +23,6 @@ import android.view.ContextThemeWrapper
 
 
 class TableroActivity : AppCompatActivity() {
-
 
     private var palabra: String? = null
     private var palabraAux: String? = null
@@ -41,8 +40,8 @@ class TableroActivity : AppCompatActivity() {
     private var intent: Intent? = null
     //private var sonidoOnOff: Boolean = false
     private var musicaOnOff: Boolean = true
-    private var mediaPlayer: MediaPlayer? = null
     private val letras:List<Char> = listOf('A','B','C','D','E','F','G','H','I','J','K','L','M','N','Ñ','O','P','Q','R','S','T','U','V','W','X','Y','Z') // Letras que componen el teclado
+    private lateinit var botonSonido: ImageButton
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,30 +56,24 @@ class TableroActivity : AppCompatActivity() {
 
         palabra = getIntent().getStringExtra("palabra_clave")
 
-        ///////// sonido
-        mediaPlayer = MediaPlayer.create(this, R.raw.durantejugar)
-        mediaPlayer!!.isLooping = true
-        mediaPlayer!!.setVolume(100f, 100f)
 
-        //sonidoOnOff = getIntent().getBooleanExtra("SonidoOn-Off", true)
-        musicaOnOff = intent?.getBooleanExtra("SonidoOn-Off", true) ?: true
+        // --- Recuperar estado de sonido desde SharedPreferences ---
+        musicaOnOff = SonidoGestion.obtenerEstadoSonido(this)
 
-        val botonSonido = findViewById<ImageButton>(R.id.btnImagen)
+        botonSonido = findViewById<ImageButton>(R.id.btnImagen)
 
-        if (musicaOnOff) {
-            SonidoGestion.iniciarMusica(this, R.raw.inicio)
-            botonSonido.setImageResource(R.drawable.ic_volume_up)
-        } else {
-            botonSonido.setImageResource(R.drawable.ic_volume_off)
-        }
+        // --- Configurar botón de sonido ---
+        actualizarIconoBotonSonido()
 
         botonSonido.setOnClickListener {
-            if (SonidoGestion.musicaSonando()) {
-                SonidoGestion.pausarMusica()
-                botonSonido.setImageResource(R.drawable.ic_volume_off)
+            val sonidoActivo = SonidoGestion.alternarSonido(this)
+            musicaOnOff = sonidoActivo
+            actualizarIconoBotonSonido()
+
+            if (sonidoActivo) {
+                SonidoGestion.iniciarMusica(this, R.raw.tablero)
             } else {
-                SonidoGestion.iniciarMusica(this, R.raw.inicio)
-                botonSonido.setImageResource(R.drawable.ic_volume_up)
+                SonidoGestion.pausarMusica()
             }
         }
 
@@ -99,6 +92,21 @@ class TableroActivity : AppCompatActivity() {
 //                mediaPlayer!!.start()
 //            }
 //        }
+
+        // --- Botón atrás ---
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val intent = Intent(this@TableroActivity, CategoriaActivity::class.java)
+                intent.putExtra("SonidoOn-Off", SonidoGestion.musicaSonando())
+                startActivity(intent)
+                finish()
+            }
+        })
+
+        // --- Iniciar música si estaba activa ---
+        if (musicaOnOff && !SonidoGestion.musicaSonando()) {
+            SonidoGestion.iniciarMusica(this, R.raw.tablero)
+        }
 
 
         palabraAux = palabra
@@ -468,11 +476,30 @@ class TableroActivity : AppCompatActivity() {
         return contador
     }
 
+    /**
+     * Cada vez que el activity vuelva de una pausa el spinner se coloca en la posicion selecciona una categoria
+     */
+    override fun onResume() {
+        super.onResume()
+
+        if (musicaOnOff && !SonidoGestion.musicaSonando()) {
+            SonidoGestion.iniciarMusica(this, R.raw.tablero)
+        }
+    }
+
 
     override fun onPause() {
         super.onPause()
         //mediaPlayer!!.stop()
         SonidoGestion.pausarMusica()
+    }
+
+    private fun actualizarIconoBotonSonido() {
+        if (musicaOnOff) {
+            botonSonido.setImageResource(R.drawable.ic_volume_up)
+        } else {
+            botonSonido.setImageResource(R.drawable.ic_volume_off)
+        }
     }
 
     /**
