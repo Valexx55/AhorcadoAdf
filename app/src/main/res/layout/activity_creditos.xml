@@ -1,33 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content" >
+<!-- res/layout/activity_creditos.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
 
-    <LinearLayout
-
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="1">
-
+        android:fillViewport="true"
+        android:layout_centerInParent="true">
 
         <TextView
-            android:id="@+id/cajatext"
+            android:paddingTop="300dp"
+            android:paddingBottom="300dp"
+            android:id="@+id/creditosText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable="true"
-            android:contextClickable="true"
-            android:isScrollContainer="true"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFF00"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:scaleY="0.5"
+            android:lineSpacingExtra="10dp"
             android:text="@string/creditos" />
 
-        <Button
-            android:id="@+id/boton1"
-            android:layout_gravity="center"
-            android:layout_width="160dp"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
 
-    </LinearLayout>
-
-</ScrollView>
+    </ScrollView>
+</RelativeLayout>
