@@ -52,11 +52,10 @@
 
         <item name="android:windowSplashScreenBackground">@color/md_theme_primary</item>
         <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
-        <item name="android:windowSplashScreenAnimationDuration">10000</item>
         <item name="android:windowSplashScreenIconBackgroundColor">@color/md_theme_primaryContainer</item>
 
         <!-- POSIBLE MEJORA, DISEÑAR UN BAJO CON EL NOMBRE DE LA APP Y LA TIPOGRAFÍA APROPIADA PARA INCLUIRLO-->
-        <!--<item name="android:windowSplashScreenBrandingImage">@drawable/imagen_derrota</item>-->
+        <item name="android:windowSplashScreenBrandingImage">@drawable/logo</item>
 
         <!-- No parece que afecte. S/e programáticamente sí que hay setearlo-->
         <item name="postSplashScreenTheme">@style/Theme.Ahorcado</item>
