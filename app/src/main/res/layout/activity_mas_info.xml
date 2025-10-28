@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@android:color/white">
+
+    <!-- WebView ocupa casi toda la pantalla pero deja espacio para el botón -->
+    <WebView
+        android:id="@+id/webview_mas_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/boton_volver"
+        android:layout_marginBottom="16dp"
+        android:background="@android:color/white"
+        android:overScrollMode="never"/>
+
+    <!-- Botón para volver al inicio -->
+    <Button
+        android:id="@+id/boton_volver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Volver"
+        android:textSize="18sp"
+        android:paddingVertical="12dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:textColor="@android:color/white"/>
+</RelativeLayout>
