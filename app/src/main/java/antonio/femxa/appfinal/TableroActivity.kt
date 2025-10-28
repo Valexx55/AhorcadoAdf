@@ -19,7 +19,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import java.util.Locale
 import android.view.ContextThemeWrapper
-
+import androidx.activity.enableEdgeToEdge
 
 
 class TableroActivity : AppCompatActivity() {
@@ -46,6 +46,7 @@ class TableroActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(R.layout.activity_tablero)
 
         val v = findViewById<View>(R.id.btnImagen)
