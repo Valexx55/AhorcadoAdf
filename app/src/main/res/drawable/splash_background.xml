@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/drawable/splash_background.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Fondo de color -->
+    <item android:drawable="@color/md_theme_primary" />
+
+    <!-- Icono centrado -->
+    <item>
+        <bitmap
+
+            android:gravity="center_horizontal|center_vertical"
+            android:src="@drawable/ic_splash_10"
+
+            />
+    </item>
+</layer-list>

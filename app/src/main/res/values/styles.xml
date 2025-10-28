@@ -2,10 +2,11 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+        <!-- Customize your theme here.
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        -->
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -16,5 +17,16 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Definición de los atributos de la tecla -->
+    <style name="EstiloTecla" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/estilo_tecla</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item> <!-- Ripple -->
+    </style>
 
 </resources>

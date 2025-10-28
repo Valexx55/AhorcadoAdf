@@ -1,7 +1,5 @@
 <resources>
     <style name="Theme.Ahorcado" parent="Theme.Material3.Light.NoActionBar">
-        <item name="android:fontFamily">@font/roboto</item>
-        <item name="fontStyle"></item>
         <item name="colorPrimary">@color/md_theme_primary</item>
         <item name="colorOnPrimary">@color/md_theme_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_primaryContainer</item>
@@ -52,16 +50,13 @@
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
 
-        <!-- con esta opción se personaliza la imagen y el fondo, pero el tamaño de la imagen no es escalable-->
-        <!--<item name="android:windowBackground">@drawable/splash_background</item>-->
-        <item name="windowSplashScreenBackground">@color/md_theme_primary</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_10</item>
-        <item name="windowSplashScreenAnimationDuration">10000</item>
-        <!-- No parece que afecte. Aún con un icono transparente-->
-        <item name="windowSplashScreenIconBackgroundColor">@color/md_theme_primaryContainer</item>
-        <!-- No se puede incluir con o sin prefijo android:-->
-        <!--<item name="android:windowSplashScreenBrandingImage">@drawable/imagen_derrota</item>-->
+        <item name="android:windowSplashScreenBackground">@color/md_theme_primary</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="android:windowSplashScreenAnimationDuration">10000</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/md_theme_primaryContainer</item>
 
+        <!-- POSIBLE MEJORA, DISEÑAR UN BAJO CON EL NOMBRE DE LA APP Y LA TIPOGRAFÍA APROPIADA PARA INCLUIRLO-->
+        <!--<item name="android:windowSplashScreenBrandingImage">@drawable/imagen_derrota</item>-->
 
         <!-- No parece que afecte. S/e programáticamente sí que hay setearlo-->
         <item name="postSplashScreenTheme">@style/Theme.Ahorcado</item>

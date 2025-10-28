@@ -1,0 +1,6 @@
+<!-- Definición de la parte visual de la tecla -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/md_theme_primary"/>
+    <corners android:radius="8dp"/>
+</shape>

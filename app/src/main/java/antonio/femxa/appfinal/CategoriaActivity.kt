@@ -54,7 +54,7 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
         //programo el evento de botón hacia atrás
         onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                intent = Intent(this@CategoriaActivity, InicialActivity::class.java)
+                intent = Intent(this@CategoriaActivity, MainActivity::class.java)
 
 //                if (musicaOnOff) {
 //                    intent!!.putExtra("SonidoOn-Off", true)
