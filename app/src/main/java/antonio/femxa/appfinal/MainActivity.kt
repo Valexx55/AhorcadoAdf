@@ -1,26 +1,32 @@
 package antonio.femxa.appfinal
 
 //import android.R
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
+import android.view.animation.AnticipateInterpolator
 import android.widget.Button
+import android.window.SplashScreenView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.animation.doOnEnd
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var botonSonido: Button
     private var musicaOnOff: Boolean = true
+    private var cargaCompletada = false
+    private var datosOk=false
 
 
     /**
@@ -51,8 +57,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_inicial)
-        pruebaMuestraMapa()
-        preCargaRetardo()
+        //pruebaMuestraMapa()
+        preCargarDatos()
+        retardoSplashScreen()
         animacionSalidaSplash()
 
         botonSonido = findViewById(R.id.botonsonido)
@@ -119,7 +126,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        pruebaMuestraMapa()
         // Si estaba activa antes, reanuda
         if (musicaOnOff && !SonidoGestion.musicaSonando()) {
             SonidoGestion.iniciarMusica(this, R.raw.main)
@@ -137,38 +143,23 @@ class MainActivity : AppCompatActivity() {
     en este caso, estamos causando un retardo de 6 segundos y hasta que no acabe
     la actividad no empieza a pintarse y mientras, se ve sólo la Splash Screen
      */
-    fun preCargaRetardo() {
+    fun retardoSplashScreen() {
         // Set up an OnPreDrawListener to the root view.
         //OJO android.R.id.content apunta al FrameLayout que contiene toda la interfaz de tu Activity.
         //Ese content existe siempre, todos nuestros layouts montan en este Frame y sigue estando en JetPack Compose
         val content = findViewById<View>(android.R.id.content)
-         var datosListos = false
-         var cargaLanzada = false
+
         content.viewTreeObserver.addOnPreDrawListener(
             object : ViewTreeObserver.OnPreDrawListener {
+                //Android llama a onPreDraw() una vez por frame (≈ 60 veces por segundo, si hay algo que actualizar).
                 override fun onPreDraw(): Boolean {
 
-                    if (datosListos) {
+                    if (cargaCompletada) {
                         content.viewTreeObserver.removeOnPreDrawListener(this)
-                        return true // ahora sí, permitir dibujo
                     }
+                    Log.d("MIAPP", "Datos listos = $cargaCompletada")
+                    return cargaCompletada
 
-                    if (!cargaLanzada) {
-                        cargaLanzada = true
-                        lifecycleScope.launch {
-                            try {
-                                withContext(Dispatchers.IO) {
-                                    PalabrasRepository.preCargarPalabras()
-                                }
-                                datosListos = true
-                                content.invalidate() // fuerza nuevo preDraw
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                                // Maneja error: podrías mostrar un mensaje o reintentar
-                            }
-                        }
-                    }
-                    return false // suspende el primer dibujo hasta que se completen los datos
                 }
             }
         )
@@ -181,37 +172,65 @@ class MainActivity : AppCompatActivity() {
      * como ésta
      */
     fun animacionSalidaSplash() {
-        //sólo para versiones anteriores
-        //también podría obtener la instancia con val splashScreen = installSplashScreen()
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            splashScreen.setOnExitAnimationListener { splashScreenView ->
-                // Create your custom animation.
-                val slideUp = ObjectAnimator.ofFloat(
-                    splashScreenView,
-                    View.TRANSLATION_X,
-                    0f,
-                    -splashScreenView.width.toFloat()
-                )
-                slideUp.interpolator = AnticipateInterpolator()
-                slideUp.duration = 20000L
 
-                // Call SplashScreenView.remove at the end of your custom animation.
-                slideUp.doOnEnd { splashScreenView.remove() }
-
-                // Run your animation.
-                slideUp.start()
-            }
-        }*/
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            splashScreen.setOnExitAnimationListener { splashScreenView ->
-                splashScreenView.iconView!!.animate()
-                    .alpha(0f)
-                    .setDuration(900L)
-                    .withEndAction {
-                        splashScreenView.remove()
-                    }
+            splashScreen.setOnExitAnimationListener(::animacionHorizontal)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            splashScreen.setOnExitAnimationListener (::animacionIconoDegradado)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    //@TargetApi(Build.VERSION_CODES.S)
+    fun animacionHorizontal (splashScreenView: SplashScreenView)
+    {
+        // Create your custom animation.
+        val slideUp = ObjectAnimator.ofFloat(
+            splashScreenView,
+            View.TRANSLATION_X,
+            0f,
+            -splashScreenView.width.toFloat()
+        )
+        slideUp.interpolator = AnticipateInterpolator()
+        slideUp.duration = 900L
+
+        // Call SplashScreenView.remove at the end of your custom animation.
+        slideUp.doOnEnd { splashScreenView.remove() }
+
+        // Run your animation.
+        slideUp.start()
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    fun animacionIconoDegradado (splashScreenView: SplashScreenView)
+    {
+        splashScreenView.iconView!!.animate()
+            .alpha(0f)
+            .setDuration(900L)
+            .withEndAction {
+                splashScreenView.remove()
             }
+    }
+
+    fun preCargarDatos ()
+    {
+        //Es un hilo independiente, no estoy en la Interfaz de Usuario
+        lifecycleScope.launch(context = Dispatchers.IO) {
+
+                    try {
+                        PalabrasRepository.preCargarPalabras()
+                        datosOk = true
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        Log.e("MIAPP", "ERROR al acceder a los datos ${e.message}")
+                        datosOk = false
+                    } finally {
+                        cargaCompletada = true
+                    }
         }
     }
 
