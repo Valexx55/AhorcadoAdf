@@ -102,15 +102,4 @@ class VictoriaActivity : AppCompatActivity() {
         mediaPlayer!!.stop()
     }
 
-    /*override fun onBackPressed() {
-        val intent = Intent(
-            this@VictoriaActivity,
-            CategoriaActivity::class.java
-        )
-
-        startActivity(intent)
-
-        finish()
-    }*/
-
 }
