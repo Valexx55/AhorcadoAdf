@@ -4,26 +4,11 @@
     android:layout_height="match_parent"
     android:background="#000000">
 
-    <ScrollView
-        android:id="@+id/scrollView"
+
+    <FrameLayout
+        android:id="@+id/creditosContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:layout_centerInParent="true">
+        android:background="#000000" />
 
-        <TextView
-            android:paddingTop="300dp"
-            android:paddingBottom="300dp"
-            android:id="@+id/creditosText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#FFFF00"
-            android:textSize="24sp"
-            android:gravity="center"
-            android:scaleY="0.5"
-            android:lineSpacingExtra="10dp"
-            android:text="@string/creditos" />
-
-
-    </ScrollView>
 </RelativeLayout>

@@ -2,14 +2,25 @@ package antonio.femxa.appfinal
 
 //import android.R
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
+import android.graphics.Color
+import android.graphics.Typeface
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.Gravity
 import android.view.View
 import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.view.animation.AnimationSet
+import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
+import android.view.animation.RotateAnimation
+import android.view.animation.ScaleAnimation
 import android.widget.Button
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.ScrollView
 import android.widget.TextView
@@ -33,59 +44,53 @@ class CreditosActivity : AppCompatActivity() {
         mediaPlayer!!.isLooping = false
         mediaPlayer!!.setVolume(100f, 100f)
 
-//        boton.setOnLongClickListener {
-//            mediaPlayer!!.start()
-//            true
-//        }
 
-        val scrollView = findViewById<ScrollView>(R.id.scrollView)
-        val creditosText = findViewById<TextView>(R.id.creditosText)
+        val container = findViewById<FrameLayout>(R.id.creditosContainer)
+        val lineas = getString(R.string.creditos).split("\n")
 
-        creditosText.post {
-            val distance = creditosText.height + scrollView.height
+        val screenHeight = resources.displayMetrics.heightPixels
+        val startY = screenHeight.toFloat()
+        val endY = -200f // fuera de pantalla por arriba
 
-            val fadeIn = AlphaAnimation(0f, 1f).apply {
-                duration = 2000 // 2 segundos
-                fillAfter = true
+        lineas.forEachIndexed { index, texto ->
+            val textView = TextView(this).apply {
+                text = texto
+                setTextColor(Color.YELLOW)
+                textSize = 24f
+                gravity = Gravity.CENTER
+                textAlignment = View.TEXT_ALIGNMENT_CENTER
+                setTypeface(null, Typeface.BOLD)
+                setPadding(0, 20, 0, 20)
+                layoutParams = FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    gravity = Gravity.CENTER_HORIZONTAL
+                }
             }
-//            creditosText.startAnimation(fadeIn)
-            scrollView.startAnimation(fadeIn)
 
-            ObjectAnimator.ofInt(scrollView, "scrollY", 0, distance).apply {
-                duration = 35000L // 20 segundos
+            container.addView(textView)
+
+            // Animación personalizada
+            val animator = ValueAnimator.ofFloat(startY, endY).apply {
+                duration = 30000L
+                startDelay = index * 300L // escalonado
                 interpolator = LinearInterpolator()
-                start()
+
+                addUpdateListener { animation ->
+                    val y = animation.animatedValue as Float
+                    textView.translationY = y
+
+                    // Escala según posición vertical (más alto = más pequeño)
+                    val progress = 1f - (y / screenHeight)
+                    val scale = 1f - (progress * 0.7f) // reduce hasta 30% del tamaño
+                    textView.scaleX = scale
+                    textView.scaleY = scale
+                }
             }
 
-            // 3. Fade-out justo antes de que termine el scroll
-            val fadeOut = AlphaAnimation(1f, 0f).apply {
-                duration = 2000
-                fillAfter = true
-            }
-
-            Handler(Looper.getMainLooper()).postDelayed({
-//                creditosText.startAnimation(fadeOut)
-                scrollView.startAnimation(fadeOut)
-            }, 33000) // 35s - 2s = 33s
+            animator.start()
         }
 
-//        val scrollView = findViewById<ScrollView>(R.id.scrollView)
-//        val creditosText = findViewById<TextView>(R.id.creditosText)
-//
-//        val lineas = getString(R.string.creditos).split("\n")
-//        creditosText.text = "" // Vacía el texto
-//
-//        val handler = Handler(Looper.getMainLooper())
-//        var delay = 0L
-//
-//        for (linea in lineas) {
-//            handler.postDelayed({
-//                creditosText.append("$linea\n")
-//            }, delay)
-//            delay += 500 // medio segundo entre líneas
-//        }
-
     }
-
-
 }
