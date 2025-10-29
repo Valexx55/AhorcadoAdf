@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Each position of id refers to an string array -->
     <array name="array_categorias">
         <item></item>
         <item>@array/animales</item>
@@ -17,7 +16,7 @@
     </array>
 
     <string-array name="categorias">
-        <item>Selecciona una categoría</item>
+        <item>Selecciona categoría</item>
         <item>Animales</item>
         <item>Deportes</item>
         <item>Eñe palabras</item>
