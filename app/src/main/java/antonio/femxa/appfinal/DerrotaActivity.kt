@@ -37,10 +37,21 @@ class DerrotaActivity : AppCompatActivity() {
         palabra = getIntent().getStringExtra("palabra_clave")
 
         val button = findViewById<View>(R.id.boton_derrota_inicio) as Button
-
+        val botonMasInfo: Button = findViewById(R.id.boton_mas_info)
         val textView = findViewById<View>(R.id.text_palabra_oculta) as TextView
 
         textView.text = palabra
+
+        // aquí añado el código para "Más Info"
+        botonMasInfo.setOnClickListener {
+            val palabraSeleccionada = textView.text.toString()
+
+            if (palabraSeleccionada.isNotEmpty()) {
+                val intent = Intent(this@DerrotaActivity, MasInformacionActivity::class.java)
+                intent.putExtra(MasInformacionActivity.EXTRA_PALABRA, palabraSeleccionada)
+                startActivity(intent)
+            }
+        }
 
         button.setOnClickListener {
             val intent = Intent(
