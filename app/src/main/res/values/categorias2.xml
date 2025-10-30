@@ -33,7 +33,7 @@
         <item>estrella de mar</item>
         <item>ornitorrinco</item>
         <item>rinoceronte</item>
-        <item>puercoespin</item>
+        <item>puercoespín</item>
         <item>salamandra</item>
         <item>leopardo</item>
         <item>facoquero</item>
@@ -53,7 +53,8 @@
         <item>caracol</item>
         <item>saltamontes</item>
         <item>liebre</item>
-
+        <item>capibara</item>
+        <item>ualabí</item>
     </string-array>
     <string-array name="deportes">
         <item>tenis de mesa</item>
@@ -71,6 +72,17 @@
         <item>escalada</item>
         <item>polo</item>
         <item>hipica</item>
+        <item>pádel</item>
+        <item>pickeball</item>
+        <item>hockey</item>
+        <item>voleibol</item>
+        <item>natación</item>
+        <item>ciclismo</item>
+        <item>pelota vasca</item>
+        <item>frontón</item>
+        <item>ajedrez</item>
+        <item>rugby</item>
+        <item>petanca</item>
 
     </string-array>
     <string-array name="eñe_palabras">
@@ -86,28 +98,54 @@
         <item>contraseña</item>
         <item>aliño</item>
         <item>campiña</item>
-        <item>champiñon</item>
+        <item>champiñón</item>
         <item>piñones</item>
-
+        <item>mañana</item>
+        <item>morriña</item>
+        <item>ensoñación</item>
+        <item>añoranza</item>
+        <item>niñato</item>
+        <item>muñón</item>
+        <item>muñeca</item>
+        <item>cañón</item>
+        <item>uña</item>
+        <item>piraña</item>
+        <item>ñoqui</item>
+        <item>puñetazo</item>
+        <item>pestaña</item>
+        <item>estreñimiento</item>
     </string-array>
     <string-array name="famosos">
         <item>bruce willis</item>
         <item>matt damon</item>
         <item>dwayne johnson</item>
-        <item>asthon kutcher</item>
+        <item>tom cruise</item>
         <item>nicola tesla</item>
-        <item>nicolas cage</item>
+        <item>salma hayek</item>
         <item>russel crowe</item>
-        <item>wynona ryder</item>
+        <item>ana de armas</item>
         <item>leonardo dicaprio</item>
         <item>george clooney</item>
         <item>antonio banderas</item>
         <item>will smith</item>
         <item>mel gibson</item>
-
+        <item>rafa nadal</item>
+        <item>julio iglesias</item>
+        <item>penélope cruz</item>
+        <item>frida kahlo</item>
+        <item>marie curie</item>
+        <item>arnold schwarzenegger</item>
+        <item>cristiano ronaldo</item>
+        <item>manuela malasaña</item>
+        <item>ada lovelace</item>
+        <item>cleopatra</item>
+        <item>coco chanel</item>
+        <item>karl lagerfeld</item>
+        <item>shakira</item>
+        <item>scarlett johansson</item>
     </string-array>
     <string-array name="fruta">
-        <item>fruta de la pasion</item>
+        <item>fruta de la pasión</item>
         <item>mano de buda</item>
         <item>albaricoque</item>
         <item>chirimoya</item>
@@ -115,11 +153,26 @@
         <item>banana</item>
         <item>granada</item>
         <item>pomelo</item>
-        <item>nispero</item>
+        <item>níspero</item>
         <item>higo</item>
         <item>aguacate</item>
         <item>caqui</item>
         <item>nectarina</item>
+        <item>melón</item>
+        <item>sandía</item>
+        <item>guanábana</item>
+        <item>maracuyá</item>
+        <item>pitahaya</item>
+        <item>cerezas</item>
+        <item>physalis</item>
+        <item>manzana</item>
+        <item>mandarina</item>
+        <item>naranja</item>
+        <item>ciruela</item>
+        <item>papaya</item>
+        <item>fresa</item>
+        <item>lichi</item>
+        <item>durián</item>
 
 
     </string-array>
@@ -184,19 +237,25 @@
         <item>Electrónica</item>
         <item>Jazz Fusion</item>
         <item>Blues</item>
-        <item>Clasica</item>
+        <item>Música clásica</item>
         <item>Reggae</item>
         <item>Indie</item>
         <item>Metal</item>
         <item>Salsa</item>
         <item>Country</item>
-        <item>Metalcore</item>
-        <item>Thrash</item>
+        <item>Vallenato</item>
+        <item>Bachata</item>
         <item>Trap</item>
-        <item>Rap solo</item>
-        <item>Folk</item>
-        <item>Rithm and Blues</item>
+        <item>Cumbia</item>
+        <item>Merengue</item>
+        <item>Dance</item>
         <item>Flamenco</item>
+        <item>Instrumental</item>
+        <item>New age</item>
+        <item>Jota</item>
+        <item>Muñeira</item>
+        <item>Copla</item>
+        <item>Zarzuela</item>
     </string-array>
 
 
