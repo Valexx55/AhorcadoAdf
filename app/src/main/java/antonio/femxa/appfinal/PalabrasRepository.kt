@@ -16,13 +16,14 @@ object PalabrasRepository {
         try {
             val db = Firebase.firestore
             val snapshot = db.collection("categorías").get().await()
-            mapaPalabras = mutableMapOf<String, List<String>>()
+
 
             if (snapshot.isEmpty) {
                 throw Exception("Sin palabras remotas")
             }
 
             else {
+                mapaPalabras = mutableMapOf<String, List<String>>()
                 for (doc in snapshot.documents) { //recorremos las categorìas y añadimos sus valores a cada una
 
                     val nombreCategoria = doc.id

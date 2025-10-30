@@ -12,15 +12,15 @@ import android.widget.Spinner
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import kotlin.random.Random
 
 
 class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var spCategorias: Spinner? = null
-//    private var mediaPlayer: MediaPlayer? = null
     private var intent: Intent? = null
-//    private var musicaOnOff: Boolean = false
     private var musicaOnOff: Boolean = true
     private lateinit var botonSonido: ImageButton
+    private var mapaFb : Map<String, List<String>>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +32,7 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
 
         this.spCategorias = findViewById<View>(R.id.spinner_categorias) as Spinner
 
+        mapaFb = PalabrasRepository.getMapaPalabras()
         loadSpinnerCategorias()
 
         botonSonido = findViewById<ImageButton>(R.id.btnImagen)
@@ -82,33 +83,11 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
         val spinner = findViewById<View>(R.id.spinner_categorias) as Spinner
         spinner.setSelection(0)
 
-//        musicaOnOff = getIntent().getBooleanExtra("SonidoOn-Off", true)
 
-        val v = findViewById<View>(R.id.btnImagen)
-        val ib = v as ImageButton
-
-//        mediaPlayer = MediaPlayer.create(this, R.raw.inicio)
-//        mediaPlayer!!.isLooping = true
-//        mediaPlayer!!.setVolume(100f, 100f)
-//
-//        if (musicaOnOff) {
-//            mediaPlayer!!.start()
-//            ib.setImageResource(R.drawable.ic_volume_off)
-//        } else {
-//            ib.setImageResource(R.drawable.ic_volume_up)
-//        }
-//
-//        ponerMusica()
     }
 
     override fun onPause() {
         super.onPause()
-        val v = findViewById<View>(R.id.btnImagen)
-        val ib = v as ImageButton
-
-//        mediaPlayer!!.stop()
-
-        //if (!musicaOnOff) ib.setImageResource(R.drawable.ic_volume_up)
 
         SonidoGestion.pausarMusica()
     }
@@ -117,13 +96,26 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
      * Cargamos el spinner con el array que esta en categorias.xml
      */
     fun loadSpinnerCategorias() {
-        val adapter =
-            ArrayAdapter.createFromResource(this, R.array.categorias, android.R.layout.simple_spinner_item)
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        var adapter: ArrayAdapter<CharSequence>? = null
+        mapaFb?.let { mapa ->
+            //si tengo info de Firebase
+            val listaCategorias = mapa.keys.toList().toMutableList() // mapa es no nulo
+            //OJO hay que añadir una primera posición falsa, como menú del listado
+            listaCategorias.add(0, "Selecciona categoría")
 
+            adapter = ArrayAdapter(
+                this,                                  // Contexto
+                android.R.layout.simple_spinner_item,  // Layout base para los ítems
+                listaCategorias.toList()//la hacemos inmutable otra vez                             // Tu lista de Strings
+            )
+        } ?: run {
+            //si no tengo info de Firebase, tiro de local
+            adapter = ArrayAdapter.createFromResource(this, R.array.categorias, android.R.layout.simple_spinner_item)
+
+        }
+        adapter!!.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spCategorias!!.adapter = adapter
-
         spCategorias!!.setOnItemSelectedListener(this)
     }
 
@@ -137,14 +129,30 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
      * @param id
      */
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+
+        var arrayPalabrasSeleccionado: Array<out CharSequence>? = null
+
         if (pos != 0) {
-            val array_categorias = resources.obtainTypedArray(R.array.array_categorias)
-            val array_especifico = array_categorias.getTextArray(pos)
-            array_categorias.recycle()
 
-            val palabra = palabraOculta(array_especifico)
 
-            Log.d("MENSAJE2", palabra)
+            mapaFb?.let { mapa ->
+                //si tengo info de Firebase
+                //por ser la primera posición ficticia para el títlo del spinner
+                //hay que coger del mapa la posición menos 1, para que coincida
+                var categoriaElegida = mapa.keys.toList().get(pos-1)
+                arrayPalabrasSeleccionado = mapa.get(categoriaElegida)!!.toTypedArray()
+
+            } ?: run {
+                //si no tengo info de Firebase, tiro de local
+                val array_categorias = resources.obtainTypedArray(R.array.array_categorias)
+                arrayPalabrasSeleccionado = array_categorias.getTextArray(pos)
+                array_categorias.recycle()
+
+            }
+
+            val palabra = palabraOculta(arrayPalabrasSeleccionado)
+
+            Log.d("MIAPP", palabra)
 
 
             intent = Intent(this@CategoriaActivity, TableroActivity::class.java)
@@ -156,12 +164,6 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
             val aa = spinner.selectedItem.toString()
             intent!!.putExtra("categoria_seleccionada", aa)
 
-//            if (musicaOnOff) {
-//                intent!!.putExtra("SonidoOn-Off", true)
-//            } else {
-//                intent!!.putExtra("SonidoOn-Off", false)
-//            }
- //           intent!!.putExtra("SonidoOn-Off", musicaOnOff)
             SonidoGestion.detenerMusica()
             startActivity(intent)
         }
@@ -175,12 +177,10 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
      * @param array_especifico
      * @return
      */
-    fun palabraOculta(array_especifico: Array<CharSequence>): String {
+    fun palabraOculta(array_especifico: Array<out CharSequence>?): String {
         var palabra: String? = null
 
-        val aleatoria = (Math.random() * array_especifico.size).toInt()
-        Log.d("MENSAJE2", aleatoria.toString() + " " + array_especifico.size)
-        palabra = array_especifico[aleatoria].toString()
+            palabra = array_especifico?.random(Random(System.nanoTime())).toString()
 
         return palabra
     }
@@ -193,53 +193,4 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
         }
     }
 
-
-//    fun ponerMusica() {
-//        super.onStart()
-//
-//
-//        val v = findViewById<View>(R.id.btnImagen)
-//        val ib = v as ImageButton
-//
-//        ib.setOnClickListener {
-//            if (mediaPlayer!!.isPlaying) {
-//                mediaPlayer!!.pause()
-//                ib.setImageResource(R.drawable.ic_volume_off)
-//                musicaOnOff = false
-//            } else {
-//                ib.setImageResource(R.drawable.ic_volume_up)
-//                mediaPlayer = MediaPlayer.create(this@CategoriaActivity, R.raw.inicio)
-//                mediaPlayer!!.isLooping = true
-//                mediaPlayer!!.setVolume(100f, 100f)
-//                mediaPlayer!!.start()
-//                musicaOnOff = true
-//            }
-//        }
-//    }
-
-
-
-   /* override fun onBackPressed() {
-
-//super.onBackPressed();
-
-        intent = Intent(this@CategoriaActivity, InicialActivity::class.java)
-
-        if (musicaOnOff) {
-            intent!!.putExtra("SonidoOn-Off", true)
-        } else {
-            intent!!.putExtra("SonidoOn-Off", false)
-        }
-
-        startActivity(intent)
-        super.onBackPressed()
-    }*/
-
-//    override fun onStop() {
-//        super.onStop()
-//        // Si estaba activa antes, reanuda
-//        if (SonidoGestion.musicaSonando()) {
-//            SonidoGestion.detenerMusica()
-//        }
-//    }
 }
