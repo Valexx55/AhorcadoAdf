@@ -1,16 +1,131 @@
+# ==============================================
+# Android Studio / IntelliJ IDEA
+# ==============================================
+
+# Configuración del IDE
+.idea/
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+*.ipr
+*.iws
+
+# Gradle
+.gradle/
+build/
+**/build/
+!gradle/wrapper/gradle-wrapper.jar
 local.properties
-/.idea
+
+# ==============================================
+# Archivos temporales / del sistema
+# ==============================================
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+ehthumbs.db
+*.lnk
+
+# Archivos temporales del editor o compilador
+*.swp
+*.swo
+*~
+*.tmp
+
+# ==============================================
+# Android / Kotlin / Java
+# ==============================================
+
+# Archivos generados por Android Studio
+captures/
+outputs/
+reports/
+generated/
+
+# Archivos de firma (no se deben versionar)
+*.keystore
+*.jks
+
+# Archivos de logs
+*.log
+
+# Cache de Gradle
+.gradle/
+**/build/
+.cxx/
+
+# ==============================================
+# NDK / C++
+# ==============================================
+
+# Archivos generados por compilaciones nativas
+obj/
+*.so
+*.o
+*.a
+
+# ==============================================
+# Archivos de configuración local
+# ==============================================
+
+# Configuración del SDK local
+local.properties
+
+# Archivos de entorno
+.env
+.env.local
+
+# ==============================================
+# Android Studio 2023+ (nuevo sistema de caches)
+# ==============================================
+
+.idea/caches/
+.idea/modules.xml
+.idea/workspace.xml
+.idea/shelf/
+.idea/gradle.xml
+.idea/libraries/
+.idea/tasks.xml
+.idea/compiler.xml
+.idea/vcs.xml
+
+# ==============================================
+# Otras herramientas comunes
+# ==============================================
+
+# Kotlin
+.kotlinc/
+
+# IntelliJ
+out/
+
+# VS Code (si lo usas también)
+.vscode/
+
+# ==============================================
+# Test / CI
+# ==============================================
+
+# Archivos de cobertura y test
+test-results/
+coverage/
+*.ec
+*.exec
+*.hprof
+
+# ==============================================
+# Misc
+# ==============================================
+
+# Archivos generados por Android Asset Packaging Tool (AAPT)
+*.apk
+*.ap_
+*.aab
+
+# Archivos del emulador
+*.lock
+*.avd/
+.cache/
+
+# ==============================================
+# Fin
+# ==============================================
