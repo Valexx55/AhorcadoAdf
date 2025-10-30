@@ -181,52 +181,91 @@
         <item>alhambra de granada</item>
         <item>cuevas de altamira</item>
         <item>playa de la concha</item>
-        <item>trinidad y tobago</item>
         <item>gran muralla china</item>
-        <item>papua nueva guinea</item>
-        <item>cala macarella</item>
-        <item>guggenheim</item>
-        <item>sri lanka</item>
-        <item>el teide</item>
-        <item>la cibeles</item>
-        <item>las médulas</item>
-
+        <item>teide</item>
+        <item>pirámides de egipto</item>
+        <item>coliseo romano</item>
+        <item>machu picchu</item>
+        <item>taj mahal</item>
+        <item>petra</item>
+        <item>chichén itza</item>
+        <item>cristo redentor</item>
+        <item>sagrada familia</item>
+        <item>el escorial</item>
+        <item>torre effiel</item>
+        <item>santiago de compostela</item>
+        <item>la meca</item>
+        <item>la estatua de la libertad</item>
+        <item>golden gate</item>
+        <item>la plaza roja</item>
+        <item>la casa blanca</item>
+        <item>acrópolis de atenas</item>
+        <item>la ciudad prohibida</item>
+        <item>ciudad del vaticano</item>
     </string-array>
     <string-array name="peliculas">
-        <item></item>
-        <item>cincuenta sombras de grey</item>
-        <item>airbag</item>
-        <item>zona hostil</item>
-        <item>resacon  en las vegas</item>
-        <item>el lobo de wall street</item>
-        <item>el diario de noa</item>
-        <item>brokeback mountain</item>
-        <item>million dollar baby</item>
+        <item>la vida es bella</item>
+        <item>terminator</item>
+        <item>rocky</item>
+        <item>acorralado</item>
+        <item>pulp fiction</item>
+        <item>lo que el viento se llevó</item>
+        <item>titanic</item>
         <item>matrix reloaded</item>
-        <item>enigma</item>
-        <item>el mito de bourne</item>
+        <item>la guerra de las galaxias</item>
+        <item>la lista de schindler</item>
         <item>psicosis</item>
         <item>seven</item>
+        <item>regreso al futuro</item>
+        <item>el gran dictador</item>
+        <item>gladiator</item>
+        <item>los otros</item>
+        <item>karate kid</item>
+        <item>memorias de áfrica</item>
+        <item>lawrence de arabia</item>
+        <item>cinema paradiso</item>
+        <item>el bueno el feo y el malo</item>
+        <item>los siete samuráis</item>
+        <item>depredador</item>
+        <item>misión imposible</item>
+        <item>el rey león</item>
+        <item>el capitán américa</item>
+        <item>deseando amar</item>
+        <item>el padrino</item>
+        <item>abre los ojos</item>
+        <item>avatar</item>
+        <item>piratas del caribe</item>
 
     </string-array>
     <string-array name="internet">
-        <item>memes</item>
+        <item>meme</item>
         <item>hashtag</item>
         <item>influencer</item>
         <item>viral</item>
         <item>streaming</item>
-        <item>stream sniping</item>
-        <item>sloud</item>
-        <item>criptomonedas</item>
-        <item>blockchain</item>
-        <item>deep web</item>
+        <item>router</item>
         <item>podcast</item>
-        <item>app</item>
-        <item>bot</item>
         <item>hacker</item>
         <item>selfie</item>
         <item>smartphone</item>
-        <item>megapixeles</item>
+        <item>servidor</item>
+        <item>ancho de banda</item>
+        <item>wifi</item>
+        <item>página web</item>
+        <item>dominio</item>
+        <item>dirección ip</item>
+        <item>contraseña</item>
+        <item>navegador</item>
+        <item>cortafuegos</item>
+        <item>spam</item>
+        <item>correo electrónico</item>
+        <item>buscador</item>
+        <item>enlace</item>
+        <item>videoconferencia</item>
+        <item>descarga</item>
+        <item>suplantación de identidad</item>
+        <item>login</item>
+        <item>virus</item>
     </string-array>
 
     <string-array name="estilosmusicales">
