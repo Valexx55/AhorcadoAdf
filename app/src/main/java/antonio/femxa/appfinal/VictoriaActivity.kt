@@ -41,10 +41,22 @@ class VictoriaActivity : AppCompatActivity() {
         palabra = intent.getStringExtra("palabra_clave")
 
         val button = findViewById<View>(R.id.boton_victoria_inicio) as Button
-
+        val botonMasInfo: Button = findViewById(R.id.boton_mas_info)
         val textView = findViewById<View>(R.id.text_palabra_oculta_victoria) as TextView
 
         textView.text = palabra
+
+       // aquí añado el código para "Más Info"
+        botonMasInfo.setOnClickListener {
+            val palabraSeleccionada = textView.text.toString()
+
+            if (palabraSeleccionada.isNotEmpty()) {
+                val intent = Intent(this@VictoriaActivity, MasInformacionActivity::class.java)
+                intent.putExtra(MasInformacionActivity.EXTRA_PALABRA, palabraSeleccionada)
+                startActivity(intent)
+            }
+        }
+
 
         button.setOnClickListener {
             val intent = Intent(
@@ -89,16 +101,5 @@ class VictoriaActivity : AppCompatActivity() {
         super.onPause()
         mediaPlayer!!.stop()
     }
-
-    /*override fun onBackPressed() {
-        val intent = Intent(
-            this@VictoriaActivity,
-            CategoriaActivity::class.java
-        )
-
-        startActivity(intent)
-
-        finish()
-    }*/
 
 }
