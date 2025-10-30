@@ -30,25 +30,19 @@ class MainActivity : AppCompatActivity() {
 
 
     /**
-     * TODO SPLASHSCREEN - VALE
-     * TODO CATEGORIAS - EXTERNALIZAR EN UN API GITHUB FIREBASE??/ AMPLIAR CATEGORÍAS Y PALABRAS
-
-     * TODO PROBLEMA TECLADO DIMENSIÓN DE LAS LETRAS / TIPO DE FUENTE / TAMAÑO DE LAS TECLAS (JUAN MA)
 
      * TODO PALALBRA A RESOLVER NO SE VE EN EMULADOR - problema color tema oscuro
-
-     * TODO PROBLEMA SONIDO INCONSISTENT y sigue sonando al salir de la app (PREFERENCES/CLASE GESTIÓN APARTE)
-
-     * TODO CRÉDITOS REFORMULAR cambiar huevo de pascua
      * TODO revisar tHENNAS Y TEMA
+     * TODO CRÉDITOS REFORMULAR cambiar huevo de pascua
+     * TODO REVISAR DISEÑO SPINNER PARA QUE SE VEA BIEN TODO
      * TODO AÑADIR ALGUNA ANIMACIÓN
      * TODO AÑADIR ANUNCIOS
-     * TODO REVISAR NAVEGACIÓN
-     * TODO CATEGORIAS TAMAÑO SPINNER PARA QUE SE VEA BIEN TODO
      * TODO CAPITALIZACIÓN DERROTA VICTORIA ACTIVITY
      * TODO REVISAR MEJORA APP ICONO VISIBLIDAD e IMAGEN DE FONDO INICIAL
      * TODO eliminar referencias a femxa
-     * TODO ACTUALIZAR VERSIONES DEL TARGETSDK Y LAS PROPIAS DE LA PUBLICACIÓN
+     * TODO homogeneizar el tamaño de la fuente en los botones de inicio
+     * TODO integrar la publicidad
+     * TODO REVISAR EL DISEÑO DE TODAS LAS PANTALLAS después integrar la publicidad
      */
 
 
@@ -177,10 +171,10 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             splashScreen.setOnExitAnimationListener(::animacionHorizontal)
         }
-
+/*
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             splashScreen.setOnExitAnimationListener (::animacionIconoDegradado)
-        }
+        }*/
     }
 
     @RequiresApi(Build.VERSION_CODES.S)

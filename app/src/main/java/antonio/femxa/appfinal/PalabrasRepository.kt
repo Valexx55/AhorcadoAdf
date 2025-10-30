@@ -8,6 +8,7 @@ import kotlinx.coroutines.tasks.await
 object PalabrasRepository {
 
 
+    //si tengo null, no se han podido cargar los datos de Firebase y habrá que tirar de local
     private var mapaPalabras: MutableMap<String, List<String>>? = null
 
     suspend fun preCargarPalabras ()
@@ -17,8 +18,8 @@ object PalabrasRepository {
             val db = Firebase.firestore
             val snapshot = db.collection("categorías").get().await()
 
-
-            if (snapshot.isEmpty) {
+            //mapaPalabras = mutableMapOf<String, List<String>>()
+            if (snapshot.isEmpty) { //no se ha podido leer de FB
                 throw Exception("Sin palabras remotas")
             }
 
