@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="array_categorias">
+        <item></item>
+        <item>@array/animales</item>
+        <item>@array/deportes</item>
+        <item>@array/eñe_palabras</item>
+        <item>@array/famosos</item>
+        <item>@array/fruta</item>
+        <item>@array/lugares</item>
+        <item>@array/peliculas</item>
+        <item>@array/internet</item>
+        <item>@array/estilosmusicales</item>
+
+    </array>
+
+    <string-array name="categorias">
+        <item>Selecciona categoría</item>
+        <item>Animales</item>
+        <item>Deportes</item>
+        <item>Eñe palabras</item>
+        <item>Famosos</item>
+        <item>Frutas</item>
+        <item>Lugares</item>
+        <item>Películas</item>
+        <item>Internet</item>
+        <item>Estilos musicales</item>
+
+    </string-array>
+    <string-array name="animales">
+        <item>ciervo almizclero</item>
+        <item>estrella de mar</item>
+        <item>ornitorrinco</item>
+        <item>rinoceronte</item>
+        <item>puercoespín</item>
+        <item>salamandra</item>
+        <item>leopardo</item>
+        <item>facoquero</item>
+        <item>suricato</item>
+        <item>okapi</item>
+        <item>jabalí</item>
+        <item>guepardo</item>
+        <item>nutria</item>
+        <item>murciélago</item>
+        <item>gato</item>
+        <item>caballo</item>
+        <item>avestruz</item>
+        <item>diablo de tasmania</item>
+        <item>cobra real</item>
+        <item>delfín</item>
+        <item>lontra</item>
+        <item>caracol</item>
+        <item>saltamontes</item>
+        <item>liebre</item>
+        <item>capibara</item>
+        <item>ualabí</item>
+    </string-array>
+    <string-array name="deportes">
+        <item>tenis de mesa</item>
+        <item>baloncesto</item>
+        <item>waterpolo</item>
+        <item>badminton</item>
+        <item>lacrosse</item>
+        <item>atletismo</item>
+        <item>curling</item>
+        <item>sky</item>
+        <item>golf</item>
+        <item>futbol</item>
+        <item>boxeo</item>
+        <item>futbol sala</item>
+        <item>escalada</item>
+        <item>polo</item>
+        <item>hipica</item>
+        <item>pádel</item>
+        <item>pickeball</item>
+        <item>hockey</item>
+        <item>voleibol</item>
+        <item>natación</item>
+        <item>ciclismo</item>
+        <item>pelota vasca</item>
+        <item>frontón</item>
+        <item>ajedrez</item>
+        <item>rugby</item>
+        <item>petanca</item>
+
+    </string-array>
+    <string-array name="eñe_palabras">
+        <item>añejo</item>
+        <item>amañado</item>
+        <item>señuelo</item>
+        <item>musaraña</item>
+        <item>migraña</item>
+        <item>guadaña</item>
+        <item>campaña</item>
+        <item>ponzoña</item>
+        <item>estaño</item>
+        <item>contraseña</item>
+        <item>aliño</item>
+        <item>campiña</item>
+        <item>champiñón</item>
+        <item>piñones</item>
+        <item>mañana</item>
+        <item>morriña</item>
+        <item>ensoñación</item>
+        <item>añoranza</item>
+        <item>niñato</item>
+        <item>muñón</item>
+        <item>muñeca</item>
+        <item>cañón</item>
+        <item>uña</item>
+        <item>piraña</item>
+        <item>ñoqui</item>
+        <item>puñetazo</item>
+        <item>pestaña</item>
+        <item>estreñimiento</item>
+    </string-array>
+    <string-array name="famosos">
+        <item>bruce willis</item>
+        <item>matt damon</item>
+        <item>dwayne johnson</item>
+        <item>tom cruise</item>
+        <item>nicola tesla</item>
+        <item>salma hayek</item>
+        <item>russel crowe</item>
+        <item>ana de armas</item>
+        <item>leonardo dicaprio</item>
+        <item>george clooney</item>
+        <item>antonio banderas</item>
+        <item>will smith</item>
+        <item>mel gibson</item>
+        <item>rafa nadal</item>
+        <item>julio iglesias</item>
+        <item>penélope cruz</item>
+        <item>frida kahlo</item>
+        <item>marie curie</item>
+        <item>arnold schwarzenegger</item>
+        <item>cristiano ronaldo</item>
+        <item>manuela malasaña</item>
+        <item>ada lovelace</item>
+        <item>cleopatra</item>
+        <item>coco chanel</item>
+        <item>karl lagerfeld</item>
+        <item>shakira</item>
+        <item>scarlett johansson</item>
+    </string-array>
+    <string-array name="fruta">
+        <item>fruta de la pasión</item>
+        <item>mano de buda</item>
+        <item>albaricoque</item>
+        <item>chirimoya</item>
+        <item>mango</item>
+        <item>banana</item>
+        <item>granada</item>
+        <item>pomelo</item>
+        <item>níspero</item>
+        <item>higo</item>
+        <item>aguacate</item>
+        <item>caqui</item>
+        <item>nectarina</item>
+        <item>melón</item>
+        <item>sandía</item>
+        <item>guanábana</item>
+        <item>maracuyá</item>
+        <item>pitahaya</item>
+        <item>cerezas</item>
+        <item>physalis</item>
+        <item>manzana</item>
+        <item>mandarina</item>
+        <item>naranja</item>
+        <item>ciruela</item>
+        <item>papaya</item>
+        <item>fresa</item>
+        <item>lichi</item>
+        <item>durián</item>
+
+
+    </string-array>
+    <string-array name="lugares">
+        <item>plaza españa</item>
+        <item>alhambra de granada</item>
+        <item>cuevas de altamira</item>
+        <item>playa de la concha</item>
+        <item>gran muralla china</item>
+        <item>teide</item>
+        <item>pirámides de egipto</item>
+        <item>coliseo romano</item>
+        <item>machu picchu</item>
+        <item>taj mahal</item>
+        <item>petra</item>
+        <item>chichén itza</item>
+        <item>cristo redentor</item>
+        <item>sagrada familia</item>
+        <item>el escorial</item>
+        <item>torre effiel</item>
+        <item>santiago de compostela</item>
+        <item>la meca</item>
+        <item>la estatua de la libertad</item>
+        <item>golden gate</item>
+        <item>la plaza roja</item>
+        <item>la casa blanca</item>
+        <item>acrópolis de atenas</item>
+        <item>la ciudad prohibida</item>
+        <item>ciudad del vaticano</item>
+    </string-array>
+    <string-array name="peliculas">
+        <item>la vida es bella</item>
+        <item>terminator</item>
+        <item>rocky</item>
+        <item>acorralado</item>
+        <item>pulp fiction</item>
+        <item>lo que el viento se llevó</item>
+        <item>titanic</item>
+        <item>matrix reloaded</item>
+        <item>la guerra de las galaxias</item>
+        <item>la lista de schindler</item>
+        <item>psicosis</item>
+        <item>seven</item>
+        <item>regreso al futuro</item>
+        <item>el gran dictador</item>
+        <item>gladiator</item>
+        <item>los otros</item>
+        <item>karate kid</item>
+        <item>memorias de áfrica</item>
+        <item>lawrence de arabia</item>
+        <item>cinema paradiso</item>
+        <item>el bueno el feo y el malo</item>
+        <item>los siete samuráis</item>
+        <item>depredador</item>
+        <item>misión imposible</item>
+        <item>el rey león</item>
+        <item>el capitán américa</item>
+        <item>deseando amar</item>
+        <item>el padrino</item>
+        <item>abre los ojos</item>
+        <item>avatar</item>
+        <item>piratas del caribe</item>
+
+    </string-array>
+    <string-array name="internet">
+        <item>meme</item>
+        <item>hashtag</item>
+        <item>influencer</item>
+        <item>viral</item>
+        <item>streaming</item>
+        <item>router</item>
+        <item>podcast</item>
+        <item>hacker</item>
+        <item>selfie</item>
+        <item>smartphone</item>
+        <item>servidor</item>
+        <item>ancho de banda</item>
+        <item>wifi</item>
+        <item>página web</item>
+        <item>dominio</item>
+        <item>dirección ip</item>
+        <item>contraseña</item>
+        <item>navegador</item>
+        <item>cortafuegos</item>
+        <item>spam</item>
+        <item>correo electrónico</item>
+        <item>buscador</item>
+        <item>enlace</item>
+        <item>videoconferencia</item>
+        <item>descarga</item>
+        <item>suplantación de identidad</item>
+        <item>login</item>
+        <item>virus</item>
+    </string-array>
+
+    <string-array name="estilosmusicales">
+        <item>Pop</item>
+        <item>Rock</item>
+        <item>Hip Hop</item>
+        <item>Hardcore</item>
+        <item>Electrónica</item>
+        <item>Jazz Fusion</item>
+        <item>Blues</item>
+        <item>Música clásica</item>
+        <item>Reggae</item>
+        <item>Indie</item>
+        <item>Metal</item>
+        <item>Salsa</item>
+        <item>Country</item>
+        <item>Vallenato</item>
+        <item>Bachata</item>
+        <item>Trap</item>
+        <item>Cumbia</item>
+        <item>Merengue</item>
+        <item>Dance</item>
+        <item>Flamenco</item>
+        <item>Instrumental</item>
+        <item>New age</item>
+        <item>Jota</item>
+        <item>Muñeira</item>
+        <item>Copla</item>
+        <item>Zarzuela</item>
+    </string-array>
+
+
+</resources>
