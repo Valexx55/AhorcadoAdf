@@ -106,7 +106,7 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
 
             adapter = ArrayAdapter(
                 this,                                  // Contexto
-                android.R.layout.simple_spinner_item,  // Layout base para los ítems
+                R.layout.spinner_item_dropdown,//android.R.layout.simple_spinner_item,  // Layout base para los ítems
                 listaCategorias.toList()//la hacemos inmutable otra vez                             // Tu lista de Strings
             )
         } ?: run {
@@ -114,7 +114,8 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
             adapter = ArrayAdapter.createFromResource(this, R.array.categorias, android.R.layout.simple_spinner_item)
 
         }
-        adapter!!.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        //adapter!!.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        adapter!!.setDropDownViewResource(R.layout.spinner_item_dropdown)
         spCategorias!!.adapter = adapter
         spCategorias!!.setOnItemSelectedListener(this)
     }

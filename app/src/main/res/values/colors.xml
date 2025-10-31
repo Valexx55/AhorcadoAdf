@@ -140,4 +140,6 @@
     <color name="md_theme_surfaceContainer_highContrast">#E5E2E1</color>
     <color name="md_theme_surfaceContainerHigh_highContrast">#D7D3D3</color>
     <color name="md_theme_surfaceContainerHighest_highContrast">#C9C6C6</color>
+    <color name="spinner_item_pressed_bg">#989898</color>
+
 </resources>

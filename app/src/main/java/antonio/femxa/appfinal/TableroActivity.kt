@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import java.util.Locale
 import android.view.ContextThemeWrapper
 import androidx.activity.enableEdgeToEdge
+import androidx.core.content.ContextCompat
 
 
 class TableroActivity : AppCompatActivity() {
@@ -160,7 +161,13 @@ class TableroActivity : AppCompatActivity() {
         for (i in 0 until palabra.length) {
             if (letrita == palabra[i]) {
                 val et = findViewById<View>(i) as EditText
-                et.setText(letrita.toString() + "")
+                //et.
+                //et.setTextColor(ContextCompat.getColor(this, R.color.md_theme_scrim))
+                et.apply {
+                    setTextColor(ContextCompat.getColor(context, R.color.md_theme_scrim))
+                    setHintTextColor(ContextCompat.getColor(context, R.color.md_theme_outline))
+                    setText(letrita.toString() + "")
+                }
                 Log.d("MENSAJE", "HA ENCONTRADO LA LETRA $letrita")
             }
         }
