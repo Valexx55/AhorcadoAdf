@@ -1,6 +1,7 @@
 package antonio.femxa.appfinal
 
 import android.os.Bundle
+import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Button
@@ -25,8 +26,14 @@ class MasInformacionActivity : AppCompatActivity() {
 
         val palabra = intent.getStringExtra(EXTRA_PALABRA)
         palabra?.let {
-            val url = "https://www.google.com/search?tbm=isch&q=$it"
-            webView.loadUrl(url)
+            try {
+                val url = "https://www.google.com/search?tbm=isch&q=$it"
+                webView.loadUrl(url)
+            } catch (e: Exception)
+            {
+                Log.e("MIAPP","Fallo al cargar la página de más info ${e.message} ", e)
+            }
+
         }
 
         // Botón "Volver al inicio"

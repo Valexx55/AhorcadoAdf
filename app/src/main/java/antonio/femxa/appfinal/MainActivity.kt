@@ -43,6 +43,37 @@ class MainActivity : AppCompatActivity() {
      * TODO homogeneizar el tamaño de la fuente en los botones de inicio
      * TODO integrar la publicidad
      * TODO REVISAR EL DISEÑO DE TODAS LAS PANTALLAS después integrar la publicidad
+     * TODO probar las palabras más largas en el tablera
+     * TODO mejorar la aleatoriedad de las palabras
+     * TODO hacerlo compatible con las tildes
+     * TODO homegenizar botones MasInfo Activity y Victoria Derrota
+     * TODO opción en VICTORIA/DERROTA VOlver a jugar con la misma categoría
+     * TODO revisar MasInfoActivity no va la conexión la a veces no carga ERR_NAME_NOT_RESOLVED
+     * TODO mejorar MasInfoActivity robustez de conexión a internet: chequear si hay y red y si
+     * no la forzar renovación e informar
+     *
+     ***comprobar habría que añadir ACCESS NETWOR STATE permisos
+     * fun isNetworkAvailable(context: Context): Boolean {
+     *     val connectivityManager =
+     *         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+     *     val network = connectivityManager.activeNetwork ?: return false
+     *     val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+     *     return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+     * }
+     *
+     *
+     * ****comprobar informar
+     * if (isNetworkAvailable(this)) {
+     *     webView.loadUrl("https://www.ejemplo.com")
+     * } else {
+     *     Toast.makeText(this, "Sin conexión a Internet", Toast.LENGTH_SHORT).show()
+     * }
+     *
+     ******FORZAR
+     * webView.clearCache(true)
+     * webView.clearHistory()
+     * webView.reload()
+     *
      */
 
 
