@@ -3,6 +3,7 @@ package antonio.femxa.appfinal
 //import android.R
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -20,13 +21,13 @@ import androidx.appcompat.app.AppCompatActivity
 import java.util.Locale
 import android.view.ContextThemeWrapper
 import androidx.activity.enableEdgeToEdge
-import androidx.core.content.ContextCompat
+import java.text.Normalizer
 
 
 class TableroActivity : AppCompatActivity() {
 
-    private var palabra: String? = null
-    private var palabraAux: String? = null
+    private var palabraNormalizada: String? = null
+    private var palabraOriginal: String? = null
     private val array_pics = intArrayOf(
         R.drawable.ic_cuerda,
         R.drawable.ic_cabeza,
@@ -56,8 +57,13 @@ class TableroActivity : AppCompatActivity() {
         contador = 0
         contador_aciertos = 0
 
-        palabra = getIntent().getStringExtra("palabra_clave")
+        palabraOriginal = getIntent().getStringExtra("palabra_clave")
+        Log.d("MIAPP", "Palabra Orignal al inicio = $palabraOriginal")
 
+        palabraNormalizada = quitarTildesYMayusculas(palabraOriginal!!)
+
+        Log.d("MIAPP", "Palabra Orignal al inicio2 = $palabraOriginal")
+        Log.d("MIAPP", "Palabra Normalizada  = $palabraNormalizada")
 
         // --- Recuperar estado de sonido desde SharedPreferences ---
         musicaOnOff = SonidoGestion.obtenerEstadoSonido(this)
@@ -79,21 +85,7 @@ class TableroActivity : AppCompatActivity() {
             }
         }
 
-//        if (sonidoOnOff) {
-//            mediaPlayer!!.start()
-//        } else {
-//            ib.setImageResource(R.drawable.ic_volume_off)
-//        }
-//
-//        ib.setOnClickListener {
-//            if (mediaPlayer!!.isPlaying) {
-//                mediaPlayer!!.pause()
-//                ib.setImageResource(R.drawable.ic_volume_off)
-//            } else {
-//                ib.setImageResource(R.drawable.ic_volume_up)
-//                mediaPlayer!!.start()
-//            }
-//        }
+
 
         // --- Botón atrás ---
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -111,15 +103,15 @@ class TableroActivity : AppCompatActivity() {
         }
 
 
-        palabraAux = palabra
+        //palabraOriginal = palabraFactorizada
 
-        tamaño_palabra = obtenerTamañoPalabra(palabraAux!!)
+        tamaño_palabra = obtenerTamañoPalabra(palabraOriginal!!)
 
         val imageView = findViewById<View>(R.id.imagenes_ahorcado) as ImageView
         imageView.setImageResource(array_pics[contador])
 
 
-        dibujarPanel(palabra)
+        dibujarPanel(palabraNormalizada)
         var fila1: TableRow? = findViewById<View>(R.id.lugar_inflado) as TableRow
         var fila2: TableRow? = findViewById<View>(R.id.lugar_inflado2) as TableRow
         var fila3: TableRow? = findViewById<View>(R.id.lugar_inflado3) as TableRow
@@ -131,7 +123,8 @@ class TableroActivity : AppCompatActivity() {
         fila4 = if ((fila4!!.childCount == 0)) null else fila4
 
         identificarEditText(fila1, fila2, fila3, fila4)
-        ocultarEspacios(palabra)
+        pintarFondoEnModoOscuro (fila1, fila2, fila3, fila4)
+        ocultarEspacios(palabraNormalizada)
 
         val textViewCategoria = findViewById<View>(R.id.textviewcategoria) as TextView
 
@@ -142,6 +135,41 @@ class TableroActivity : AppCompatActivity() {
         dibujarTeclado(letras)
     }
 
+    private fun pintarFondoEnModoOscuro(
+        fila1: TableRow?,
+        fila2: TableRow?,
+        fila3: TableRow?,
+        fila4: TableRow?
+    ) {
+
+        val nightModeFlags = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        when (nightModeFlags) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                // 🌙 Modo oscuro activo
+                fila1?.setBackgroundColor(Color.argb(128, 128, 128, 128))
+                fila2?.setBackgroundColor(Color.argb(128, 128, 128, 128))
+                fila3?.setBackgroundColor(Color.argb(128, 128, 128, 128))
+                fila4?.setBackgroundColor(Color.argb(128, 128, 128, 128))
+            }
+        }
+
+
+
+    }
+
+    /**
+     * "selecciona categoría" -> "\uD83E\uDDC9 $cat"     // 🧩
+     * "animales" -> "\uD83E\uDD8A $cat"      // 🦊
+     * "deportes" -> "\uD83C\uDFC5 $cat"      // 🏅
+     * "eñe palabras" -> "\uD83E\uDDEA $cat"  // 🧠
+     * "famosos" -> "\uD83C\uDF1F $cat"       // 🌟
+     * "frutas" -> "\uD83C\uDF4E $cat"        // 🍎
+     * "lugares" -> "\uD83D\uDDFA\uFE0F $cat" // 🗺️
+     * "películas" -> "\uD83C\uDFAC $cat"     // 🎬
+     * "internet" -> "\uD83C\uDF10 $cat"      // 🌐
+     * "estilos musicales" -> "\uD83C\uDFB5 $cat" // 🎵
+     * else -> "\u2B50 ${cat.replaceFirstChar { it.uppercase() }}" // ⭐
+     */
     /**
      * Dibuja el teclado del juego.
      * @param letras las letras que conforman la distribución del teclado.
@@ -161,11 +189,7 @@ class TableroActivity : AppCompatActivity() {
         for (i in 0 until palabra.length) {
             if (letrita == palabra[i]) {
                 val et = findViewById<View>(i) as EditText
-                //et.
-                //et.setTextColor(ContextCompat.getColor(this, R.color.md_theme_scrim))
                 et.apply {
-                    setTextColor(ContextCompat.getColor(context, R.color.md_theme_scrim))
-                    setHintTextColor(ContextCompat.getColor(context, R.color.md_theme_outline))
                     setText(letrita.toString() + "")
                 }
                 Log.d("MENSAJE", "HA ENCONTRADO LA LETRA $letrita")
@@ -373,8 +397,8 @@ class TableroActivity : AppCompatActivity() {
 
     fun escribirNumero(boton: View) {
         // declaramos variables y hacemos el casteo del boton para usarle
-        var palabra = getPalabra()
-        Log.d("MENSAJE", palabra!!)
+        //var palabra = getPalabra()
+        Log.d("MENSAJE", palabraNormalizada!!)
         val btnPulsado = boton as Button
         val pulsado = btnPulsado.text.toString() //cogemos el texto del boton pulsado
 
@@ -382,11 +406,11 @@ class TableroActivity : AppCompatActivity() {
         //nos creamos una variable boleana que nos dara si es falso o verdadero con lo que salga del metodo
         // haremos una condicion if en la que nos dira si la encuentra que cambie el texto del boton y lo ponga del color verde
         //sino que la ponga de color rojo y no deje pulsarla otra vez la deshabilita
-        palabra = palabra.uppercase(Locale.getDefault())
-        val encontrada = buscarLetra(pulsado, palabra)
+        //palabra = palabra.uppercase(Locale.getDefault())
+        val encontrada = buscarLetra(pulsado, palabraNormalizada!!)
         if (encontrada) {
             letraAcertada(btnPulsado)
-            mostrarLetra(pulsado, palabra)
+            mostrarLetra(pulsado, palabraNormalizada!!)
         } else {
             letraFallada(btnPulsado)
         }
@@ -407,7 +431,8 @@ class TableroActivity : AppCompatActivity() {
         if (contador_aciertos == tamaño_palabra) {
             intent = Intent(this@TableroActivity, VictoriaActivity::class.java)
 
-            intent!!.putExtra("palabra_clave", palabra)
+            intent!!.putExtra("palabra_clave", palabraOriginal)
+            Log.d("MIAPP", "Palabra Orignal = $palabraOriginal")
 
             //intent!!.putExtra("SonidoOn-Off", sonidoOnOff)
             intent?.putExtra("SonidoOn-Off", SonidoGestion.musicaSonando())
@@ -430,10 +455,11 @@ class TableroActivity : AppCompatActivity() {
         if (contador == 6) {
             intent = Intent(this@TableroActivity, DerrotaActivity::class.java)
 
-            intent!!.putExtra("palabra_clave", palabra)
+            intent!!.putExtra("palabra_clave", palabraOriginal)
 
             //intent!!.putExtra("SonidoOn-Off", sonidoOnOff)
             intent?.putExtra("SonidoOn-Off", SonidoGestion.musicaSonando())
+            Log.d("MIAPP", "Palabra Orignal = $palabraOriginal")
 
             startActivity(intent)
         } else {
@@ -453,6 +479,7 @@ class TableroActivity : AppCompatActivity() {
         var encontrado = false
         val letrita = letra[0]
         for (i in 0 until palabra.length) {
+            Log.d("MIAPP", "Letrita $letrita Char en curso ${palabra[i]} son iguales ${letrita == palabra[i]}")
             if (letrita == palabra[i]) {
                 encontrado = true
                 contador_aciertos++
@@ -463,7 +490,7 @@ class TableroActivity : AppCompatActivity() {
     }
 
     fun getPalabra(): String? {
-        return palabra
+        return palabraNormalizada
     }
 
     /**
@@ -540,5 +567,31 @@ class TableroActivity : AppCompatActivity() {
 
         return button
     }
+
+
+
+    fun quitarTildesYMayusculas(texto: String): String {
+        var palabraNormalizada = String(texto.toCharArray())//copiamos un nuevo string para conservar el orginal
+
+        val protegido = palabraNormalizada.replace("ñ", "{enie_min}").replace("Ñ", "{enie_may}")
+
+        // Descomponemos para poder eliminar diacríticos del resto (áéíóú ü, etc.)
+        val nfd = Normalizer.normalize(protegido, Normalizer.Form.NFD)
+
+        // Restauramos ñ/Ñ antes de borrar diacríticos
+        val restaurado = nfd
+            .replace(Regex("n\\u0303"), "{enie_min}")
+            .replace(Regex("N\\u0303"), "{enie_may}")
+
+        // Eliminamos las demás marcas diacríticas
+        val sinDiacriticos = restaurado.replace(Regex("[\\u0300-\\u036F]"), "")
+
+        // Quitamos los placeholders y ponemos en MAYÚSCULAS (es-ES)
+        return sinDiacriticos
+            .replace("{enie_min}", "ñ")
+            .replace("{enie_may}", "Ñ")
+            .uppercase(Locale("es", "ES"))
+    }
+
 
 }

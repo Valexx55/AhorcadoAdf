@@ -17,8 +17,11 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import java.nio.charset.StandardCharsets
 
 
 class MainActivity : AppCompatActivity() {
@@ -30,26 +33,26 @@ class MainActivity : AppCompatActivity() {
 
 
     /**
-
-     * TODO PALALBRA A RESOLVER NO SE VE EN EMULADOR - problema color tema oscuro
-     * TODO revisar tHENNAS Y TEMA
-     * TODO CRÉDITOS REFORMULAR cambiar huevo de pascua
-     * TODO REVISAR DISEÑO SPINNER PARA QUE SE VEA BIEN TODO
-     * TODO AÑADIR ALGUNA ANIMACIÓN
+     * TODO CRÉDITOS REFORMULAR Y/O CAMBIAR HUEVO DE PASCUA
+     * TODO ELIMINAR REFERENCIAS A FEMXA
+     *
+     * TODO AÑADIR ALGUNA ANIMACIÓN DE TRANSICIÓN AL TABLERO ACTIVITY
+     *
      * TODO AÑADIR ANUNCIOS
-     * TODO CAPITALIZACIÓN DERROTA VICTORIA ACTIVITY
-     * TODO REVISAR MEJORA APP ICONO VISIBLIDAD e IMAGEN DE FONDO INICIAL
-     * TODO eliminar referencias a femxa
-     * TODO homogeneizar el tamaño de la fuente en los botones de inicio
-     * TODO integrar la publicidad
-     * TODO REVISAR EL DISEÑO DE TODAS LAS PANTALLAS después integrar la publicidad
-     * TODO probar las palabras más largas en el tablera
-     * TODO mejorar la aleatoriedad de las palabras
-     * TODO hacerlo compatible con las tildes
-     * TODO homegenizar botones MasInfo Activity y Victoria Derrota
-     * TODO opción en VICTORIA/DERROTA VOlver a jugar con la misma categoría
-     * TODO revisar MasInfoActivity no va la conexión la a veces no carga ERR_NAME_NOT_RESOLVED
-     * TODO mejorar MasInfoActivity robustez de conexión a internet: chequear si hay y red y si
+     * TODO REVISAR EL DISEÑO DE TODAS LAS PANTALLAS DESPUÉS INTEGRAR LOS ANUNCIOS
+     *
+     * TODO HOMEGENIZAR BOTONES MASINFO ACTIVITY Y VICTORIA DERROTA
+     * TODO HOMOGENEIZAR EL TAMAÑO DE LA FUENTE EN LOS BOTONES DE INICIO
+     * TODO OPCIÓN EN VICTORIA/DERROTA VOLVER A JUGAR CON LA MISMA CATEGORÍA
+     * TODO MEJORAR MASINFOACTIVITY ROBUSTEZ DE CONEXIÓN A INTERNET: CHEQUEAR SI HAY Y RED Y SI
+     *
+     * TODO PROBAR LAS PALABRAS MÁS LARGAS EN EL TABLERO
+     *
+     * TODO MEJORAR LA ALEATORIEDAD DE LAS PALABRAS
+
+
+     * TODO MEJORAR LA GESTIÓN DE LOGS PARA QUE EN PRODUCCIÓN NO VAYA NADA
+     *
      * no la forzar renovación e informar
      *
      ***comprobar habría que añadir ACCESS NETWOR STATE permisos
@@ -121,8 +124,11 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+       // recopiaCategorias()
 
     }  // Fin onCreate
+
+
 
     private fun pruebaMuestraMapa() {
        Log.d("MIAPP", "DATOS MAPA =  ${PalabrasRepository.getMapaPalabras()} ")
@@ -258,5 +264,65 @@ class MainActivity : AppCompatActivity() {
                     }
         }
     }
+
+    private fun recopiaCategorias() {
+        lifecycleScope.launch {
+
+            val arrayCategoriasViejo = arrayOf("animales","deportes", "eñe palabras", "estilos musicales", "famosos", "frutas", "internet", "lugares", "peliculas" )
+            val arrayCategoriasNuevo = arrayOf("Animales 🦊","Deportes 🏅", "Eñe palabras", "Estilos musicales 🎵", "Famosos 🌟", "Frutas 🍎", "Internet 🌐", "Lugares 🗺️", "Películas 🎬" )
+
+            if (arrayCategoriasNuevo.size == arrayCategoriasViejo.size)
+            {
+                arrayCategoriasViejo.forEachIndexed { index, categoriaVieja ->
+
+                    renombrarDocumento("categorías", categoriaVieja, arrayCategoriasNuevo[index])
+
+                }
+            }
+
+
+        }
+
+    }
+
+    suspend fun renombrarDocumento(
+        nombreColeccion: String,
+        idAntiguo: String,
+        idNuevo: String
+    ) {
+        val db = FirebaseFirestore.getInstance()
+
+        try {
+            // 1️⃣ Obtener referencia de ambos documentos
+            val oldDocRef = db.collection(nombreColeccion).document(idAntiguo)
+            val newDocRef = db.collection(nombreColeccion).document(idNuevo)
+
+            // 2️⃣ Leer los datos del documento antiguo
+            val snapshot = oldDocRef.get().await()
+
+            if (!snapshot.exists()) {
+                Log.w("Firestore", "⚠️ El documento '$idAntiguo' no existe.")
+                return
+            }
+
+            // 3️⃣ Copiar datos al nuevo documento
+            val data = snapshot.data
+            if (data != null) {
+                newDocRef.set(data).await()
+                Log.d("Firestore", "✅ Copiado a '$idNuevo'")
+            }
+
+            // 4️⃣ Borrar el documento antiguo
+            oldDocRef.delete().await()
+            //Log.d("Firestore", "🗑️ Borrado '$idAntiguo'")
+
+            Log.d("Firestore", "✅ Documento renombrado correctamente de '$idAntiguo' a '$idNuevo'")
+
+        } catch (e: Exception) {
+            Log.e("Firestore", "❌ Error al renombrar documento: ${e.message}", e)
+        }
+    }
+
+
 
 }

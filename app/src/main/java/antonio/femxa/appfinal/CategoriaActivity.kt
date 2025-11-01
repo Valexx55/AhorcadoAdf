@@ -102,7 +102,7 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
             //si tengo info de Firebase
             val listaCategorias = mapa.keys.toList().toMutableList() // mapa es no nulo
             //OJO hay que añadir una primera posición falsa, como menú del listado
-            listaCategorias.add(0, "Selecciona categoría")
+            listaCategorias.add(0, "Selecciona categoría \uD83E\uDDE9")
 
             adapter = ArrayAdapter(
                 this,                                  // Contexto
