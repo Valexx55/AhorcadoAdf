@@ -6,26 +6,30 @@
         <item>@array/animales</item>
         <item>@array/deportes</item>
         <item>@array/eñe_palabras</item>
+        <item>@array/estilosmusicales</item>
         <item>@array/famosos</item>
         <item>@array/fruta</item>
+        <item>@array/internet</item>
         <item>@array/lugares</item>
         <item>@array/peliculas</item>
-        <item>@array/internet</item>
-        <item>@array/estilosmusicales</item>
+
+
 
     </array>
 
     <string-array name="categorias">
-        <item>Selecciona categoría</item>
-        <item>Animales</item>
-        <item>Deportes</item>
-        <item>Eñe palabras</item>
-        <item>Famosos</item>
-        <item>Frutas</item>
-        <item>Lugares</item>
-        <item>Películas</item>
-        <item>Internet</item>
-        <item>Estilos musicales</item>
+        <item>Selecciona categoría 🧩</item>
+        <item>Animales 🦊</item>
+        <item>"Deportes 🏅"</item>
+        <item>Eñe palabras \uD83C\uDDEA\uD83C\uDDF8</item>
+        <item>Estilos musicales 🎵</item>
+        <item>Famosos 🌟</item>
+        <item>Frutas 🍎</item>
+        <item>Internet 🌐</item>
+        <item>Lugares 🗺️</item>
+        <item>Películas 🎬</item>
+
+
 
     </string-array>
     <string-array name="animales">

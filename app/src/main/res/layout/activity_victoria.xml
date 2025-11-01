@@ -30,7 +30,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Palabra Oculta"
-        android:textSize="20sp"
+        android:textSize="22sp"
+        android:textAllCaps="true"
+        android:textStyle="bold"
         android:textAlignment="center"
         android:layout_above="@id/boton_mas_info"
         android:layout_marginBottom="38dp"/>

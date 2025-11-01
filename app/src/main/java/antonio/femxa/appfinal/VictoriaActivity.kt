@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import java.util.Locale
 
 
 class VictoriaActivity : AppCompatActivity() {
@@ -44,7 +45,7 @@ class VictoriaActivity : AppCompatActivity() {
         val botonMasInfo: Button = findViewById(R.id.boton_mas_info)
         val textView = findViewById<View>(R.id.text_palabra_oculta_victoria) as TextView
 
-        textView.text = palabra
+        textView.text = palabra!!.uppercase(Locale.getDefault())
 
        // aquí añado el código para "Más Info"
         botonMasInfo.setOnClickListener {

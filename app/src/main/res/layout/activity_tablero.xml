@@ -37,55 +37,51 @@
             android:layout_above="@+id/boton_victoria_inicio"
             android:layout_alignLeft="@+id/text_palabra_victoria"
             android:layout_alignStart="@+id/text_palabra_victoria"
-
+            android:layout_marginBottom="8dp"
             android:fontFamily="monospace"
             android:text="TextView"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textAppearance="@android:style/TextAppearance"
             android:textColor="@android:color/holo_green_dark"
-            android:textSize="18sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <TableRow
             android:id="@+id/lugar_inflado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:orientation="horizontal"></TableRow>
+            android:gravity="center"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"/>
 
         <TableRow
             android:id="@+id/lugar_inflado2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:layout_margin="5dp"
-            android:orientation="horizontal"></TableRow>
+            android:orientation="horizontal"/>
 
         <TableRow
             android:id="@+id/lugar_inflado3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:layout_margin="5dp"
-            android:orientation="horizontal"></TableRow>
+            android:orientation="horizontal"/>
 
         <TableRow
             android:id="@+id/lugar_inflado4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:layout_margin="5dp"
-            android:orientation="horizontal"></TableRow>
+            android:orientation="horizontal"/>
 
 
     </TableLayout>

@@ -1,5 +1,5 @@
 <resources>
-    <color name="md_theme_primary">#ADC6FF</color>
+    <color name="md_theme_primary">#0058BC</color>
     <color name="md_theme_onPrimary">#002E69</color>
     <color name="md_theme_primaryContainer">#4B8EFF</color>
     <color name="md_theme_onPrimaryContainer">#00214E</color>
@@ -140,4 +140,5 @@
     <color name="md_theme_surfaceContainer_highContrast">#313030</color>
     <color name="md_theme_surfaceContainerHigh_highContrast">#3C3B3B</color>
     <color name="md_theme_surfaceContainerHighest_highContrast">#484647</color>
+    <color name="spinner_item_pressed_bg">#828282</color>
 </resources>
