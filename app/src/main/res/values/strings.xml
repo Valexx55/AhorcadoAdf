@@ -3,96 +3,144 @@
 	<string name="title_activity_tablero">TableroActivity</string>
     <string name="creditos">
         \n
-        EQUIPO FEMXA\n
+        EQUIPO VALEXX\n
         \n
-        Isabel Martin Alonso\n
-	Contact: isabelmartinalonso2@gmail.com\n
-	GitHub: github.com/isamaralo\n
-	From: Avila, Spain\n
+\n
+	Valeriano Moreno\n
+	Contact:\n
+	valerianomoreno@gmail.com\n
+	GitHub:\n
+	https://github.com/Valexx55\n
+\n
+	Jose Antonio Ramirez Roman\n
+	Contact:\n
+	ramrom2@gmail.com\n
+	GitHub:\n
+	https://github.com/JarrGit25\n
+\n
+	Jorge Andres Pabon Valderrama\n
+	Contact:\n
+	pabonandres325@gmail.com\n
+\n
+	Juan Manuel Garcia Frey\n
+	Contact:\n
+	quelel@gmail.com\n
+	GitHub:\n
+	https://github.com/JMGF01\n
+\n
+	Juan Seoane Solo\n
+	Contact:\n
+	juan.seoane.solo@gmail.com\n
+	GitHub:\n
+	https://github.com/juan-seoane\n
+\n
+	Isabel Martin Alonso\n
+	Contact:\n
+	isabelmartinalonso2@gmail.com\n
+	GitHub:\n
+	github.com/isamaralo\n
 \n
 	Antonio Lopez Belinchon\n
-	Contact: antonio3650@gmail.com\n
-	GitHub: github.com/antoniolb92\n
-	From: Madrid, Spain\n
+	Contact:\n
+	antonio3650@gmail.com\n
+	GitHub:\n
+	github.com/antoniolb92\n
 \n
 	Susana Sanchez Montero\n
-	Contact: susanasanchez@auxiliamadrid.org\n
-	GitHub: github.com/Susanasanch\n
-	From: Madrid, Spain\n
+	Contact:\n
+	susanasanchez@auxiliamadrid.org\n
+	GitHub:\n
+	github.com/Susanasanch\n
 \n
 	Nira Maria Bethencourt Hernandez\n
-	Contact: nirabethencourt@gmail.com\n
-	GitHub: github.com/niraBH\n
-	From: Tenerife, Spain\n
+	Contact:\n
+	nirabethencourt@gmail.com\n
+	GitHub:\n
+	github.com/niraBH\n
 \n
 	Carlota Elena Sanchez Sansegundo\n
-	Contact: carlotasanchezsansegundo@gmail.com\n
-	GitHub: github.com/css94\n
-	From: Madrid, Spain\n
-	\n
+	Contact:\n
+	carlotasanchezsansegundo@gmail.com\n
+	GitHub:\n
+	github.com/css94\n
+\n
 	Cristian Hernandez Del Caso\n
-	Contact: cristianhernandezdelcaso@hotmail.com\n
-	GitHub: github.com/Cristian8\n
-	From: Avila, Spain\n
-	\n
+	Contact:\n
+	cristianhernandezdelcaso@hotmail.com\n
+	GitHub:\n
+	github.com/Cristian8\n
+\n
 	Dante Jeanpier Olivares Oruna\n
-	Contact: dante_cancer27@hotmail.com\n
-	GitHub: github.com/dante321\n
-	From: Lima, Peru\n
-	\n
+	Contact:\n
+	dante_cancer27@hotmail.com\n
+	GitHub:\n
+	github.com/dante321\n
+\n
 	Manuel Santiago Risquez\n
-	Contact: manudj_2006@hotmail.com\n
-	GitHub: github.com/manu160427\n
-	From: Madrid, Spain\n
-	\n
+	Contact:\n
+	manudj_2006@hotmail.com\n
+	GitHub:\n
+	github.com/manu160427\n
+\n
 	Javier Moreno\n
-	Contact: morenopereda12@gmail.com\n
-	GitHub: github.com/jmoremore\n
-	From: Albacete, Spain	\n
-	\n
+	Contact:\n
+	morenopereda12@gmail.com\n
+	GitHub:\n
+	github.com/jmoremore\n
+\n
 	Iulian Constantin Anghel \n
-	Contact: iulian.anghel19@gmail.com\n
-	GitHub: github.com/iulianang\n
-	From: Madrid, Spain \n
-	\n
+	Contact:\n
+	iulian.anghel19@gmail.com\n
+	GitHub:\n
+	github.com/iulianang\n
+\n
 	Zaineb Mazouz\n
-	Contact: z.m.malak@hotmail.com\n
-	GitHub: github.com/zaineb88\n
-	From: Rabat, Morocco\n
-	\n
+	Contact:\n
+	z.m.malak@hotmail.com\n
+	GitHub:\n
+	github.com/zaineb88\n
+\n
 	Cristina Calvo Sanz\n
-	Contact: c.calvosanz@gmail.com\n
-	GitHub: github.com/crikycs\n
-	From: Madrid, Spain\n
-	\n
+	Contact:\n
+	c.calvosanz@gmail.com\n
+	GitHub:\n
+	github.com/crikycs\n
+\n
 	Alvaro Esteve Atance\n
-	Contact: alvarodava@gmail.com\n
-	GitHub: github.com/SteveR98 \n
-	From: Madrid, Spain\n
-	\n
+	Contact:\n
+	alvarodava@gmail.com\n
+	GitHub:\n
+	github.com/SteveR98 \n
+\n
 	Diego Bladimir Duque Castillo\n
-	Contact: diego.duque90@gmail.com\n
-	GitHub: github.com/dbcd\n
-	From: Madrid, Spain	\n
+	Contact:\n
+	diego.duque90@gmail.com\n
+	GitHub:\n
+	github.com/dbcd\n
 \n
 	Daniel Garcea-Nieto Sanchez-Guijaldo\n
-	Contact: daniel_garciasanchez@hotmail.com\n
-	GitHub: github.com/danielparla\n
-	From: Madrid, Spain\n
-	\n
+	Contact:\n
+	daniel_garciasanchez@hotmail.com\n
+	GitHub:\n
+	github.com/danielparla\n
+\n
 	Rodrigo Muñoz Sanchez\n
-	Contact: rodrickms@gmail.com\n
-	GitHub: github.com/rodrick88\n
-	From: Madrid, Spain\n
-	\n
+	Contact:\n
+	rodrickms@gmail.com\n
+	GitHub:\n
+	github.com/rodrick88\n
+\n
 	Aitor Garcia Ruiz\n
-	Contact: aitor.garcia.ruiz@hotmail.com\n
-	GitHub: github.com/AitorPCGR\n
-	From: Madrid, Spain\n
-	\n
+	Contact:\n
+	aitor.garcia.ruiz@hotmail.com\n
+	GitHub:\n
+	github.com/AitorPCGR\n
+\n
 	Alvaro Garcia Fernandez\n
-	Contact: alvgarfer@gmail.com\n
-	GitHub: github.com/alvgarfer\n
-	From: Madrid, Spain\n
+	Contact:\n
+	alvgarfer@gmail.com\n
+	GitHub:\n
+	github.com/alvgarfer\n
+\n
     </string>
 </resources>
