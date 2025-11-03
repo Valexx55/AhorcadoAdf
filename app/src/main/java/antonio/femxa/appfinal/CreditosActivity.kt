@@ -1,6 +1,7 @@
 package antonio.femxa.appfinal
 
 import android.animation.ValueAnimator
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.media.MediaPlayer
@@ -15,13 +16,15 @@ import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 
 class CreditosActivity : AppCompatActivity() {
 
-    private var mediaPlayer: MediaPlayer? = null
+    private var mediaPlayerPascua: MediaPlayer? = null
     private val handler = Handler(Looper.getMainLooper())
+    private var musicaOnOff: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,39 +37,53 @@ class CreditosActivity : AppCompatActivity() {
         val lineas = getString(R.string.creditos).split("\n")
         val screenHeight = resources.displayMetrics.heightPixels
 
-        initMediaPlayer(R.raw.superman)
+        SonidoGestion.iniciarMusica(this, R.raw.superman)
         mostrarCreditos(container, lineas, screenHeight)
         animaLogo(imagenFinal, screenHeight, lineas)
         huevoPascua(imagenFinal)
+
+        // --- Botón atrás ---
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val intent = Intent(this@CreditosActivity, MainActivity::class.java)
+                intent.putExtra("SonidoOn-Off", SonidoGestion.musicaSonando())
+                startActivity(intent)
+                finish()
+            }
+        })
     }
 
-//    private fun initMediaPlayer() {
-//        mediaPlayer = MediaPlayer.create(this, R.raw.soni).apply {
-//            isLooping = false
-//            setVolume(1.0f, 1.0f)
-//        }
-//    }
-
+    /**
+     * Inicializa MediaPlayer con el fichero de audio proporcionado.
+     * El volumen está configurado al máximo (1.0)
+     * @param musica El fichero de audio a reproducir.
+     */
     private fun initMediaPlayer(musica: Int) {
-        mediaPlayer = MediaPlayer.create(this, musica).apply {
+        mediaPlayerPascua = MediaPlayer.create(this, musica).apply {
             isLooping = false
             setVolume(1.0f, 1.0f)
         }
-        mediaPlayer!!.start()
+        mediaPlayerPascua!!.start()
     }
 
-    private fun mostrarCreditos(container: FrameLayout, lineas: List<String>, screenHeight: Int) {
-        val baseStartY = screenHeight.toFloat()
-        val spacingY = screenHeight.toFloat() / (lineas.size + 1)
+    /**
+     * Muestra los créditos mediante una animación al estilo de los créditos de cine.
+     * @param frameLayout el contenedor donde se mostrarán los créditos
+     * @param lineas Las líneas de texto a mostrar
+     * @param alturaPantalla la altura de la pantalla del móvil
+     */
+    private fun mostrarCreditos(frameLayout: FrameLayout, lineas: List<String>, alturaPantalla: Int) {
+        val baseStartY = alturaPantalla.toFloat()
+        val spacingY = alturaPantalla.toFloat() / (lineas.size + 1)
 
         lineas.forEachIndexed { index, texto ->
             val startY = baseStartY + (index * spacingY)
             val endY = -200f
 
             val textView = crearLineaCredito(texto, startY)
-            container.addView(textView)
+            frameLayout.addView(textView)
 
-            animarLineaCredito(textView, startY, endY, index, screenHeight)
+            animarLineaCredito(textView, startY, endY, index, alturaPantalla)
         }
     }
 
@@ -77,9 +94,24 @@ class CreditosActivity : AppCompatActivity() {
      * @return se devuelve un nuevo TextView con la línea creada
      */
     private fun crearLineaCredito(texto: String, posicionInicialEjeY: Float): TextView {
-        val textView = TextView(this)
+        var textView = TextView(this)
 
-        // Estilos base
+        // Preparamos los estilos que tendrá el TextView donde irá cada línea de crédito.
+        textView = estilosBaseTextView(textView,posicionInicialEjeY)
+        // Preparamos los estilos que tendrá cada línea de crédito.
+        textView = estilosCreditos(textView, texto)
+
+        return textView
+    }
+
+    /**
+     * Prepara los estilos que tendrá el TextView donde irá cada línea de crédito.
+     * @param textView el TextView a personalizar que contendrá la línea de texto.
+     * @param posicionInicialEjeY la posición inicial en el eje Y (vertical)
+     * @return devuelve el TextView ya personalizado.
+     */
+    fun estilosBaseTextView(textView: TextView, posicionInicialEjeY: Float): TextView
+    {
         textView.setTextColor(Color.WHITE)
         textView.textSize = 20f
         textView.gravity = Gravity.CENTER
@@ -99,7 +131,17 @@ class CreditosActivity : AppCompatActivity() {
             gravity = Gravity.CENTER_HORIZONTAL
             setMargins(0, 20, 0, 20)
         }
+        return textView
+    }
 
+    /**
+     * Prepara los estilos que tendrá cada línea de crédito.
+     * @param textView el TextView a personalizar que contendrá la línea de texto.
+     * @param texto el texto a mostrar que forma parte de los créditos.
+     * @return devuelve el TextView ya personalizado.
+     */
+    fun estilosCreditos(textView: TextView, texto: String): TextView
+    {
         // Aplicar estilos especiales si contiene nombre o email
         val spannable = SpannableString(texto)
 
@@ -232,20 +274,32 @@ class CreditosActivity : AppCompatActivity() {
      */
     private fun huevoPascua(logo: ImageView) {
         logo.setOnLongClickListener {
-//            mediaPlayer!!.start()
+//          SonidoGestion.iniciarMusica(this, R.raw.soni) // No se usa el Gestor porque detiene la música de fondo, y queremos que se superpongan.
             initMediaPlayer(R.raw.soni)
             true
         }
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        if (mediaPlayer != null) {
-            mediaPlayer!!.release()
-            mediaPlayer = null
+        // Si se activa el sonido, en cuanto finalice liberamos sus recursos asignados
+        if (mediaPlayerPascua != null && mediaPlayerPascua!!.isPlaying) {
+            mediaPlayerPascua!!.setOnCompletionListener {
+                mediaPlayerPascua!!.release()
+                mediaPlayerPascua = null
+            }
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        if (musicaOnOff && !SonidoGestion.musicaSonando()) {
+            SonidoGestion.iniciarMusica(this, R.raw.superman)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        SonidoGestion.pausarMusica()
+    }
 
 }
 
