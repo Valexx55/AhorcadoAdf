@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.view.animation.AnticipateInterpolator
 import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.window.SplashScreenView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
@@ -26,7 +28,7 @@ import java.nio.charset.StandardCharsets
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var botonSonido: Button
+    private lateinit var botonSonido: LinearLayout
     private var musicaOnOff: Boolean = true
     private var cargaCompletada = false
     private var datosOk=false
@@ -164,7 +166,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun actualizarTextoBotonSonido() {
-        botonSonido.text = if (musicaOnOff) "SONIDO OFF" else "SONIDO ON"
+       // botonSonido.text = if (musicaOnOff) "SONIDO OFF" else "SONIDO ON"
+        val textView = botonSonido.getChildAt(1) as TextView   // El segundo hijo (posición 1)
+        textView.text = if (musicaOnOff) "SONIDO OFF" else "SONIDO ON"
     }
 
     /**
