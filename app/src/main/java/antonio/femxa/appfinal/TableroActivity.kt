@@ -123,7 +123,7 @@ class TableroActivity : AppCompatActivity() {
         fila4 = if ((fila4!!.childCount == 0)) null else fila4
 
         identificarEditText(fila1, fila2, fila3, fila4)
-        pintarFondoEnModoOscuro (fila1, fila2, fila3, fila4)
+//        pintarFondoEnModoOscuro (fila1, fila2, fila3, fila4)
         ocultarEspacios(palabraNormalizada)
 
         val textViewCategoria = findViewById<View>(R.id.textviewcategoria) as TextView
@@ -551,6 +551,7 @@ class TableroActivity : AppCompatActivity() {
 
         button.text = letra.toString()
         button.tag = tag
+        button.setTextColor(Color.WHITE)
         button.setOnClickListener{escribirNumero(it)}
 
         // Margen y distribución en GridLayout
