@@ -21,7 +21,7 @@
             android:background="@color/md_theme_primary"
             android:layout_marginTop="15dp"
             android:layout_gravity="center"
-            android:layout_width="200dp"
+            android:layout_width="225dp"
             android:layout_height="70dp"
             android:orientation="horizontal"
             android:id="@+id/botonjugar"
@@ -38,8 +38,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:fontFamily="sans-serif-medium"
-                android:gravity="center"
-                android:paddingLeft="-10dp"
+                android:gravity="left|center"
                 android:textColor="@android:color/background_light"
                 android:textSize="22sp"/>
         </LinearLayout>
@@ -48,7 +47,7 @@
             android:background="@color/md_theme_primary"
             android:layout_marginTop="15dp"
             android:layout_gravity="center"
-            android:layout_width="200dp"
+            android:layout_width="225dp"
             android:layout_height="70dp"
             android:orientation="horizontal"
             android:id="@+id/botonsonido"
@@ -65,8 +64,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:fontFamily="sans-serif-medium"
-                android:gravity="center"
-                android:paddingLeft="-10dp"
+                android:gravity="left|center"
                 android:textColor="@android:color/background_light"
                 android:textSize="22sp"/>
         </LinearLayout>
@@ -75,7 +73,7 @@
             android:background="@color/md_theme_primary"
             android:layout_marginTop="15dp"
             android:layout_gravity="center"
-            android:layout_width="200dp"
+            android:layout_width="225dp"
             android:layout_height="70dp"
             android:orientation="horizontal"
             android:id="@+id/botoncreditos"
@@ -92,52 +90,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:fontFamily="sans-serif-medium"
-                android:gravity="center"
-                android:paddingLeft="-10dp"
+                android:gravity="left|center"
                 android:textColor="@android:color/background_light"
                 android:textSize="22sp"/>
         </LinearLayout>
 
-        <!--        <Button
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/inicial_jugar"
-                    android:layout_width="200dp"
-                    android:layout_height="70dp"
-                    android:onClick="aJugar"
-                    android:id="@+id/botonjugar"
-                    android:layout_gravity="center_horizontal"
-                    android:text="JUGAR"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="center"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="22sp" />
-
-        <Button
-            android:id="@+id/botonsonido"
-            android:background="@drawable/inicia_sonido"
-            android:layout_width="200dp"
-            android:layout_height="70dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
-            android:text="SONIDO OFF"
-            android:gravity="center"
-            android:textSize="22sp"
-            android:textColor="@android:color/background_light" />
-
-        <Button
-            android:gravity="center"
-            android:id="@+id/botoncreditos"
-            android:background="@drawable/inicial_creditos"
-            android:layout_width="200dp"
-            android:layout_height="70dp"
-            android:layout_gravity="center_horizontal"
-            android:onClick="abrirCreditos"
-            android:layout_marginTop="15dp"
-            android:text="CRÉDITOS"
-            android:textSize="22sp"
-            android:textColor="@android:color/background_light" />
-
--->
     </LinearLayout>
 
 </LinearLayout>
