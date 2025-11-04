@@ -22,6 +22,7 @@ import java.util.Locale
 import android.view.ContextThemeWrapper
 import androidx.activity.enableEdgeToEdge
 import java.text.Normalizer
+import kotlin.random.Random
 
 
 class TableroActivity : AppCompatActivity() {
@@ -44,6 +45,7 @@ class TableroActivity : AppCompatActivity() {
     private var musicaOnOff: Boolean = true
     private val letras:List<Char> = listOf('A','B','C','D','E','F','G','H','I','J','K','L','M','N','Ñ','O','P','Q','R','S','T','U','V','W','X','Y','Z') // Letras que componen el teclado
     private lateinit var botonSonido: ImageButton
+    var categoria:String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +59,21 @@ class TableroActivity : AppCompatActivity() {
         contador = 0
         contador_aciertos = 0
 
-        palabraOriginal = getIntent().getStringExtra("palabra_clave")
+        var alazar = getIntent().getBooleanExtra("alazar", false)
+
+        if (alazar)
+        {
+            val mapaPalabras = PalabrasRepository.getMapaPalabras()
+            categoria = mapaPalabras?.keys?.random().toString()
+            palabraOriginal = mapaPalabras?.get(categoria)?.random(Random(System.nanoTime()))
+
+        } else {
+            palabraOriginal = getIntent().getStringExtra("palabra_clave")
+            categoria = getIntent().getStringExtra("categoria_seleccionada").toString()
+
+        }
+
+
         Log.d("MIAPP", "Palabra Orignal al inicio = $palabraOriginal")
 
         palabraNormalizada = quitarTildesYMayusculas(palabraOriginal!!)
@@ -128,7 +144,6 @@ class TableroActivity : AppCompatActivity() {
 
         val textViewCategoria = findViewById<View>(R.id.textviewcategoria) as TextView
 
-        val categoria = getIntent().getStringExtra("categoria_seleccionada")
 
         textViewCategoria.text = categoria
 

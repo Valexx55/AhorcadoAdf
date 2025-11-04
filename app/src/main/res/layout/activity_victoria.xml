@@ -3,7 +3,9 @@
     android:id="@+id/activity_victoria"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="antonio.femxa.ahorcadoproject.VictoriaActivity">
+    tools:context=".VictoriaActivity">
+
+
 
     <!-- Imagen de fondo -->
     <ImageView
@@ -34,27 +36,122 @@
         android:textAllCaps="true"
         android:textStyle="bold"
         android:textAlignment="center"
-        android:layout_above="@id/boton_mas_info"
+        android:layout_above="@id/seccionbotones"
         android:layout_marginBottom="38dp"/>
 
     <!-- Botón "Más Info" -->
-    <Button
+    <!--<Button
         android:id="@+id/boton_mas_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Más Info"
         android:textAlignment="center"
         android:layout_above="@id/boton_victoria_inicio"
-        android:layout_marginBottom="20dp"/> <!-- menos margen que antes para acercarlo al botón Inicio -->
+        android:layout_marginBottom="20dp"/> --><!-- menos margen que antes para acercarlo al botón Inicio -->
 
     <!-- Botón "Inicio" ahora no tan abajo -->
-    <Button
+    <!--<Button
         android:id="@+id/boton_victoria_inicio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Inicio"
         android:textAlignment="center"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"/> <!-- lo sube desde el borde inferior -->
+        android:layout_marginBottom="50dp"/>
+-->
 
+    <LinearLayout
+        android:id="@+id/seccionbotones"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="80dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+
+            android:id="@+id/boton_victoria_inicio"
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/fondo_botones_fin"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0px"
+                android:layout_weight="4"
+                android:paddingTop="4dp"
+                android:src="@drawable/outline_home_24" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0px"
+                android:layout_weight="5"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="INICIO"
+                android:textColor="@android:color/background_light"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/boton_mas_info"
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/fondo_botones_fin"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0px"
+                android:layout_weight="4"
+                android:paddingTop="4dp"
+                android:src="@drawable/outline_info_24" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0px"
+                android:layout_weight="5"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="+ INFO"
+                android:textColor="@android:color/background_light"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/botonAzar"
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/fondo_botones_fin"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0px"
+                android:layout_weight="4"
+                android:paddingTop="4dp"
+                android:src="@drawable/outline_autorenew_24" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0px"
+                android:layout_weight="5"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="AL AZAR"
+                android:textColor="@android:color/background_light"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+    </LinearLayout>
 </RelativeLayout>
