@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/fondo_juego_3"
-    tools:context="antonio.femxa.appfinal.TableroActivity">
+    tools:context=".TableroActivity">
         <ImageButton
         android:layout_marginTop="?attr/actionBarSize"
         android:layout_gravity="end"

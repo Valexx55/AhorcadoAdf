@@ -1,14 +1,15 @@
 package antonio.femxa.appfinal
 
 //import android.R
+import android.app.ActivityOptions
 import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
@@ -37,14 +38,15 @@ class DerrotaActivity : AppCompatActivity() {
         }
         palabra = getIntent().getStringExtra("palabra_clave")
 
-        val button = findViewById<View>(R.id.boton_derrota_inicio) as Button
-        val botonMasInfo: Button = findViewById(R.id.boton_mas_info)
+        val linearInicio = findViewById<LinearLayout>(R.id.boton_derrota_inicio)
+        val linearBotonMasInfo =  findViewById<LinearLayout>(R.id.boton_mas_info)
+        val linearAlAzar: LinearLayout = findViewById<LinearLayout>(R.id.botonAzar)
         val textView = findViewById<View>(R.id.text_palabra_oculta) as TextView
 
         textView.text = palabra!!.uppercase(Locale.getDefault())
 
         // aquí añado el código para "Más Info"
-        botonMasInfo.setOnClickListener {
+        linearBotonMasInfo.setOnClickListener {
             val palabraSeleccionada = textView.text.toString()
 
             if (palabraSeleccionada.isNotEmpty()) {
@@ -54,13 +56,24 @@ class DerrotaActivity : AppCompatActivity() {
             }
         }
 
-        button.setOnClickListener {
+        linearInicio.setOnClickListener {
             val intent = Intent(
                 this@DerrotaActivity,
                 CategoriaActivity::class.java
             )
             intent.putExtra("SonidoOn-Off", musicaOnOff)
             startActivity(intent)
+            finish()
+        }
+
+        linearAlAzar.setOnClickListener {
+            val intent = Intent(
+                this,
+                TableroActivity::class.java
+            )
+            intent.putExtra("alazar", true)
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+            finish()
         }
 
         //acción botón hacia atrás

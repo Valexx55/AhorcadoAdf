@@ -5,7 +5,7 @@
     android:id="@+id/activity_categoria"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="antonio.femxa.appfinal.CategoriaActivity"
+    tools:context=".CategoriaActivity"
     android:background="@drawable/pantallainicio">
 
     <Spinner
