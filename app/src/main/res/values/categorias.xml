@@ -59,6 +59,7 @@
         <item>liebre</item>
         <item>capibara</item>
         <item>ualabí</item>
+        <item>lémur</item>
     </string-array>
     <string-array name="deportes">
         <item>tenis de mesa</item>
@@ -87,7 +88,7 @@
         <item>ajedrez</item>
         <item>rugby</item>
         <item>petanca</item>
-
+        <item>tiro con arco</item>
     </string-array>
     <string-array name="eñe_palabras">
         <item>añejo</item>
@@ -118,6 +119,7 @@
         <item>puñetazo</item>
         <item>pestaña</item>
         <item>estreñimiento</item>
+        <item>ñoño</item>
     </string-array>
     <string-array name="famosos">
         <item>bruce willis</item>
@@ -146,7 +148,10 @@
         <item>karl lagerfeld</item>
         <item>shakira</item>
         <item>scarlett johansson</item>
+        <item>chespirito</item>
+        <item>cantinflas</item>
     </string-array>
+
     <string-array name="fruta">
         <item>fruta de la pasión</item>
         <item>mano de buda</item>
@@ -176,9 +181,10 @@
         <item>fresa</item>
         <item>lichi</item>
         <item>durián</item>
-
-
+        <item>lulo</item>
+        <item>yaca</item>
     </string-array>
+
     <string-array name="lugares">
         <item>plaza españa</item>
         <item>alhambra de granada</item>
@@ -238,7 +244,7 @@
         <item>abre los ojos</item>
         <item>avatar</item>
         <item>piratas del caribe</item>
-
+        <item>el chanfle</item>
     </string-array>
     <string-array name="internet">
         <item>meme</item>
@@ -269,6 +275,7 @@
         <item>suplantación de identidad</item>
         <item>login</item>
         <item>virus</item>
+        <item>estafa</item>
     </string-array>
 
     <string-array name="estilosmusicales">
@@ -298,6 +305,15 @@
         <item>Muñeira</item>
         <item>Copla</item>
         <item>Zarzuela</item>
+        <item>Worship</item>
+        <item>Bossa nova</item>
+        <item>Pop rock</item>
+        <item>pop punk</item>
+        <item>Góspel</item>
+        <item>Funk</item>
+        <item>Soul</item>
+        <item>Disco</item>
+        <item>Techno</item>
     </string-array>
 
 
