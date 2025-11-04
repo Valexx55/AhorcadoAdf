@@ -50,6 +50,23 @@
 
     </style>
 
+    <style name="Theme.Transiciones" parent="Theme.Ahorcado">
+        <item name="android:windowContentTransitions">true</item>
+        <!--<item name="android:windowSharedElementEnterTransition"> @transition/change_image_transform</item>
+        <item name="android:windowSharedElementExitTransition"> @transition/change_image_transform</item>-->
+        <item name="android:windowEnterTransition">@transition/explodeyfade</item>
+        <item name="android:windowExitTransition">@transition/explodeyfade</item>
+        <!--<item name="android:windowEnterTransition">@transition/explode</item>
+        <item name="android:windowExitTransition">@transition/explode</item>-->
+        <!--  Estados Reingreso-Retorno   -->
+        <!--  para que no empiece la de entrada hasta que acabe la de salida y vice  -->
+        <item name="android:windowAllowEnterTransitionOverlap">false</item>
+        <item name="android:windowAllowReturnTransitionOverlap">false</item>
+        <!--  Habilitar superposición de los elementos compartidos entre transiciones  -->
+        <item name="android:windowSharedElementsUseOverlay">true</item>
+
+    </style>
+
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
 
         <!-- con esta opción se personaliza la imagen y el fondo, pero el tamaño de la imagen no es escalable-->

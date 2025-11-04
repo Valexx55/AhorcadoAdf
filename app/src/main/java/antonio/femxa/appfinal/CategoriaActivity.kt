@@ -1,6 +1,7 @@
 package antonio.femxa.appfinal
 
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -166,7 +167,8 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
             intent!!.putExtra("categoria_seleccionada", aa)
 
             SonidoGestion.detenerMusica()
-            startActivity(intent)
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+            //startActivity(intent)
         }
     }
 

@@ -20,7 +20,8 @@
             android:name=".TableroActivity"
             android:configChanges="keyboard|screenSize|orientation"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transiciones"/>
         <activity
             android:name=".VictoriaActivity"
             android:configChanges="keyboard|screenSize|orientation"
