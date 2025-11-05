@@ -95,6 +95,7 @@ class TableroActivity : AppCompatActivity() {
             actualizarIconoBotonSonido()
 
             if (sonidoActivo) {
+                SonidoGestion.detenerMusica()
                 SonidoGestion.iniciarMusica(this, R.raw.tablero)
             } else {
                 SonidoGestion.pausarMusica()
@@ -504,9 +505,6 @@ class TableroActivity : AppCompatActivity() {
         return encontrado
     }
 
-    fun getPalabra(): String? {
-        return palabraNormalizada
-    }
 
     /**
      * Dada una palabra introducida te dice su numero de letras, no cuenta los espacios
@@ -536,7 +534,6 @@ class TableroActivity : AppCompatActivity() {
             SonidoGestion.iniciarMusica(this, R.raw.tablero)
         }
     }
-
 
     override fun onPause() {
         super.onPause()
