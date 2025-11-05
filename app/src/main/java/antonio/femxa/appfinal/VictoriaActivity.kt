@@ -5,7 +5,6 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
 import android.media.MediaPlayer
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -32,13 +31,10 @@ class VictoriaActivity : AppCompatActivity() {
         //está soportada desde la versión 1; por lo cual, la animación que consiste en una rotacin de foto
         //sería visible en cualquier dispositivo, carenciendo de sentido este if
         //  LO MISMO PARA DERROTA ACTIVITY: SOBRA
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            imageView.setBackgroundResource(R.drawable.progress_animation_gameover2)
-            val progressAnimation = imageView.background as AnimationDrawable
-            progressAnimation.start()
-        } else {
-            imageView.setBackgroundResource(R.drawable.pantallavictoria)
-        }
+        imageView.setBackgroundResource(R.drawable.`progress_animation_winner.xml`)
+        val progressAnimation = imageView.background as AnimationDrawable
+        progressAnimation.start()
+
 
         palabra = intent.getStringExtra("palabra_clave")
 
@@ -49,7 +45,7 @@ class VictoriaActivity : AppCompatActivity() {
 
         textView.text = palabra!!.uppercase(Locale.getDefault())
 
-       // aquí añado el código para "Más Info"
+        // aquí añado el código para "Más Info"
         linearMasInfo.setOnClickListener {
             val palabraSeleccionada = textView.text.toString()
 
@@ -83,7 +79,7 @@ class VictoriaActivity : AppCompatActivity() {
 
 
         //acción botón hacia atrás
-        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 val intent = Intent(
                     this@VictoriaActivity,

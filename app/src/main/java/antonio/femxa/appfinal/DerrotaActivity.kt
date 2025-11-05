@@ -29,17 +29,15 @@ class DerrotaActivity : AppCompatActivity() {
         setContentView(R.layout.activity_derrota)
         val imageView = findViewById<View>(R.id.imagenDerrota) as ImageView
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            imageView.setBackgroundResource(R.drawable.progress_animation_gameover)
-            val progressAnimation = imageView.background as AnimationDrawable
-            progressAnimation.start()
-        } else {
-            imageView.setBackgroundResource(R.drawable.pantallagameover)
-        }
+
+        imageView.setBackgroundResource(R.drawable.progress_animation_gameover)
+        val progressAnimation = imageView.background as AnimationDrawable
+        progressAnimation.start()
+
         palabra = getIntent().getStringExtra("palabra_clave")
 
         val linearInicio = findViewById<LinearLayout>(R.id.boton_derrota_inicio)
-        val linearBotonMasInfo =  findViewById<LinearLayout>(R.id.boton_mas_info)
+        val linearBotonMasInfo = findViewById<LinearLayout>(R.id.boton_mas_info)
         val linearAlAzar: LinearLayout = findViewById<LinearLayout>(R.id.botonAzar)
         val textView = findViewById<View>(R.id.text_palabra_oculta) as TextView
 
@@ -73,11 +71,12 @@ class DerrotaActivity : AppCompatActivity() {
             )
             intent.putExtra("alazar", true)
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+            // startActivity(intent)
             finish()
         }
 
         //acción botón hacia atrás
-        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 val intent = Intent(
                     this@DerrotaActivity,
@@ -109,13 +108,13 @@ class DerrotaActivity : AppCompatActivity() {
         mediaPlayer!!.stop()
     }
 
-   /* override fun onBackPressed() {
-        val intent = Intent(
-            this@DerrotaActivity,
-            CategoriaActivity::class.java
-        )
+    /* override fun onBackPressed() {
+         val intent = Intent(
+             this@DerrotaActivity,
+             CategoriaActivity::class.java
+         )
 
-        startActivity(intent)
-        finish()
-    }*/
+         startActivity(intent)
+         finish()
+     }*/
 }
