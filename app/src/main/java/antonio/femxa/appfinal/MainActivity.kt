@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     /**
      *
      *
+     *
      * TODO AÑADIR ANUNCIOS
      * TODO REVISAR EL DISEÑO DE TODAS LAS PANTALLAS DESPUÉS INTEGRAR LOS ANUNCIOS
      *
