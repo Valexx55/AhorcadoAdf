@@ -7,8 +7,16 @@
     android:orientation="vertical"
     android:background="@drawable/fondo_juego_3"
     tools:context=".TableroActivity">
-        <ImageButton
-        android:layout_marginTop="?attr/actionBarSize"
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/anuncio"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+    </com.google.android.gms.ads.AdView>
+
+
+    <ImageButton
         android:layout_gravity="end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
