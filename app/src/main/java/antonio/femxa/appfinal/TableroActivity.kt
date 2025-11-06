@@ -445,6 +445,27 @@ class TableroActivity : AppCompatActivity() {
         Log.d("MENSAJE", "$tamaño_palabra tamaño")
 
         if (contador_aciertos == tamaño_palabra) {
+
+            /*
+            Actualizamos estadisticas en Preferences
+             */
+            // *********************** inicio estadisticas
+            // en el momento que el jugador gana
+            val prefs = getSharedPreferences("stats", MODE_PRIVATE)
+            val editor = prefs.edit()
+
+            // Incrementar victoria
+            val victorias = prefs.getInt("victorias", 0) + 1
+            editor.putInt("victorias", victorias)
+
+            // También actualizamos partidas jugadas
+            val partidas = prefs.getInt("partidas", 0) + 1
+            editor.putInt("partidas", partidas)
+
+            editor.apply()
+            // ********************** Fin estadisticas
+
+
             intent = Intent(this@TableroActivity, VictoriaActivity::class.java)
 
             intent!!.putExtra("palabra_clave", palabraOriginal)
@@ -469,6 +490,24 @@ class TableroActivity : AppCompatActivity() {
         contador++
 
         if (contador == 6) {
+
+            /*
+            Actualizamos estadisticas en Preferences
+             */
+            // *********************** inicio estadisticas
+            // en el momento que el jugador pierde
+            val prefs = getSharedPreferences("stats", MODE_PRIVATE)
+            val editor = prefs.edit()
+
+            val derrotas = prefs.getInt("derrotas", 0) + 1
+            editor.putInt("derrotas", derrotas)
+
+            val partidas = prefs.getInt("partidas", 0) + 1
+            editor.putInt("partidas", partidas)
+
+            editor.apply()
+            // ********************** Fin estadisticas
+
             intent = Intent(this@TableroActivity, DerrotaActivity::class.java)
 
             intent!!.putExtra("palabra_clave", palabraOriginal)

@@ -6,7 +6,9 @@ import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -76,6 +78,20 @@ class VictoriaActivity : AppCompatActivity() {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
             finish()
         }
+
+
+        // --- Botón para abrir las estadísticas ---
+        val botonEstadisticas = findViewById<LinearLayout>(R.id.boton_estadisticas)
+        botonEstadisticas.setOnClickListener {
+            try {
+                Log.d("MIAPP", "Intentando abrir EstadisticasActivity...")
+                val intent = Intent(this, EstadisticasActivity::class.java)
+                startActivity(intent)
+            } catch (e: Exception) {
+                Log.e("MIAPP", "ERROR al abrir EstadisticasActivity", e)
+            }
+        }
+
 
 
         //acción botón hacia atrás

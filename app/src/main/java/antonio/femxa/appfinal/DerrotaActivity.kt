@@ -7,6 +7,7 @@ import android.graphics.drawable.AnimationDrawable
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -73,6 +74,18 @@ class DerrotaActivity : AppCompatActivity() {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
             // startActivity(intent)
             finish()
+        }
+
+        // --- Botón para abrir las estadísticas ---
+        val botonEstadisticas = findViewById<LinearLayout>(R.id.boton_estadisticas)
+        botonEstadisticas.setOnClickListener {
+            try {
+                Log.d("MIAPP", "Intentando abrir EstadisticasActivity...")
+                val intent = Intent(this, EstadisticasActivity::class.java)
+                startActivity(intent)
+            } catch (e: Exception) {
+                Log.e("MIAPP", "ERROR al abrir EstadisticasActivity", e)
+            }
         }
 
         //acción botón hacia atrás
