@@ -13,6 +13,13 @@ import android.widget.Spinner
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import kotlin.random.Random
 
 
@@ -22,12 +29,15 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
     private var musicaOnOff: Boolean = true
     private lateinit var botonSonido: ImageButton
     private var mapaFb : Map<String, List<String>>? = null
+    var interstitialAd : InterstitialAd? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_categoria)
 
+
+        //mostrarAnuncio()
         // --- Recuperar estado de sonido desde SharedPreferences ---
         musicaOnOff = SonidoGestion.obtenerEstadoSonido(this)
 
@@ -71,6 +81,63 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
 
 
     } // fin onCreate
+
+    private fun mostrarAnuncio() {
+        InterstitialAd.load(
+            this,
+            "ca-app-pub-9910445535228761/8258514024",
+            AdRequest.Builder().build(),
+            object : InterstitialAdLoadCallback() {
+                override fun onAdLoaded(ad: InterstitialAd) {
+                    Log.d("MIAPP", "Ad was loaded.")
+                    interstitialAd = ad
+
+                    interstitialAd?.fullScreenContentCallback =
+                        object : FullScreenContentCallback() {
+                            override fun onAdDismissedFullScreenContent() {
+                                // Called when fullscreen content is dismissed.
+                                Log.d("MIAPP", "Ad was dismissed.")
+                                // Don't forget to set the ad reference to null so you
+                                // don't show the ad a second time.
+                                WindowCompat.setDecorFitsSystemWindows(window, false)
+                                interstitialAd = null
+                            }
+
+                            override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                                // Called when fullscreen content failed to show.
+                                Log.d("MIAPP", "Ad failed to show.")
+                                // Don't forget to set the ad reference to null so you
+                                // don't show the ad a second time.
+                                interstitialAd = null
+                            }
+
+                            override fun onAdShowedFullScreenContent() {
+                                // Called when fullscreen content is shown.
+                                Log.d("MIAPP", "Ad showed fullscreen content.")
+                            }
+
+                            override fun onAdImpression() {
+                                // Called when an impression is recorded for an ad.
+                                Log.d("MIAPP", "Ad recorded an impression.")
+                            }
+
+                            override fun onAdClicked() {
+                                // Called when ad is clicked.
+                                Log.d("MIAPP", "Ad was clicked.")
+                            }
+                        }
+                    WindowCompat.setDecorFitsSystemWindows(window, true)
+                    interstitialAd?.show(this@CategoriaActivity)
+                }
+
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    Log.d("MIAPP", adError.message)
+                    interstitialAd = null
+                }
+            },
+        )
+    }
+
     /**
      * Cada vez que el activity vuelva de una pausa el spinner se coloca en la posicion selecciona una categoria
      */

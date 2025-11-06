@@ -18,8 +18,19 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.initialization.InitializationStatus
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -32,13 +43,17 @@ class MainActivity : AppCompatActivity() {
     private var musicaOnOff: Boolean = true
     private var cargaCompletada = false
     private var datosOk=false
+    var interstitialAd : InterstitialAd? = null
+
 
 
     /**
      *
      *
      *
-     * TODO AÑADIR ANUNCIOS
+     * TODO AÑADIR ANUNCIOS ANUNCIO INSTERSTICIAL, GESTIONARLO PARA QUE NO SALGA SIEMPRE
+     * Y QUE SE CUENTE CON UN PREFERENCES, QUE SALGA SÓLO DE VEZ EN CUANDO
+     *
      * TODO REVISAR EL DISEÑO DE TODAS LAS PANTALLAS DESPUÉS INTEGRAR LOS ANUNCIOS
      *
      * TODO MEJORAR MASINFOACTIVITY ROBUSTEZ DE CONEXIÓN A INTERNET: CHEQUEAR SI HAY Y RED Y SI
@@ -81,9 +96,12 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_inicial)
         //pruebaMuestraMapa()
+
         preCargarDatos()
         retardoSplashScreen()
         animacionSalidaSplash()
+        //TODO revisar posible incomaptilidad de corrutinas iniciailzando anuncios y cargando palabras de Firestore
+        iniciarAnuncios()
 
         botonSonido = findViewById(R.id.botonsonido)
 
@@ -124,6 +142,75 @@ class MainActivity : AppCompatActivity() {
     }  // Fin onCreate
 
 
+    private fun mostrarAnuncio() {
+        InterstitialAd.load(
+            this,
+            "ca-app-pub-9910445535228761/8258514024",
+            AdRequest.Builder().build(),
+            object : InterstitialAdLoadCallback() {
+                override fun onAdLoaded(ad: InterstitialAd) {
+                    Log.d("MIAPP", "Ad was loaded.")
+                    interstitialAd = ad
+
+                    interstitialAd?.fullScreenContentCallback =
+                        object : FullScreenContentCallback() {
+                            override fun onAdDismissedFullScreenContent() {
+                                // Called when fullscreen content is dismissed.
+                                Log.d("MIAPP", "Ad was dismissed.")
+                                // Don't forget to set the ad reference to null so you
+                                // don't show the ad a second time.
+                                WindowCompat.setDecorFitsSystemWindows(window, false)
+                                interstitialAd = null
+                            }
+
+                            override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                                // Called when fullscreen content failed to show.
+                                Log.d("MIAPP", "Ad failed to show.")
+                                // Don't forget to set the ad reference to null so you
+                                // don't show the ad a second time.
+                                interstitialAd = null
+                            }
+
+                            override fun onAdShowedFullScreenContent() {
+                                // Called when fullscreen content is shown.
+                                Log.d("MIAPP", "Ad showed fullscreen content.")
+                            }
+
+                            override fun onAdImpression() {
+                                // Called when an impression is recorded for an ad.
+                                Log.d("MIAPP", "Ad recorded an impression.")
+                            }
+
+                            override fun onAdClicked() {
+                                // Called when ad is clicked.
+                                Log.d("MIAPP", "Ad was clicked.")
+                            }
+                        }
+                    WindowCompat.setDecorFitsSystemWindows(window, true)
+                    interstitialAd?.show(this@MainActivity)
+                }
+
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    Log.d("MIAPP", adError.message)
+                    interstitialAd = null
+                }
+            },
+        )
+    }
+
+    private fun iniciarAnuncios() {
+        //NOTA: Mejor usar el contexto de la app y no me
+           lifecycleScope.launch(Dispatchers.IO) {
+               MobileAds.initialize(applicationContext)
+               {
+                       initializationStatus: InitializationStatus ->
+                   Log.d("MIAPP", "Anuncios Inicializados")
+                    //mostrarAnuncio()
+               }
+           }
+
+    }
+
 
     private fun pruebaMuestraMapa() {
        Log.d("MIAPP", "DATOS MAPA =  ${PalabrasRepository.getMapaPalabras()} ")
@@ -156,6 +243,7 @@ class MainActivity : AppCompatActivity() {
         if (musicaOnOff && !SonidoGestion.musicaSonando()) {
             SonidoGestion.iniciarMusica(this, R.raw.main)
         }
+       // iniciarAnuncios()
     }
 
     private fun actualizarTextoBotonSonido() {
@@ -249,18 +337,22 @@ class MainActivity : AppCompatActivity() {
         //Es un hilo independiente, no estoy en la Interfaz de Usuario
         lifecycleScope.launch(context = Dispatchers.IO) {
 
-                    try {
-                        PalabrasRepository.preCargarPalabras()
-                        datosOk = true
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        Log.e("MIAPP", "ERROR al acceder a los datos ${e.message}")
-                        datosOk = false
-                    } finally {
-                        cargaCompletada = true
-                    }
-        }
+
+
+                try {
+                    PalabrasRepository.preCargarPalabras()
+                    datosOk = true
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.e("MIAPP", "ERROR al acceder a los datos ${e.message}")
+                    datosOk = false
+                } finally {
+                    cargaCompletada = true
+
+                }
+            }
     }
+
 
     private fun recopiaCategorias() {
         lifecycleScope.launch {
