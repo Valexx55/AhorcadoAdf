@@ -30,6 +30,13 @@ class DerrotaActivity : AppCompatActivity() {
         val imageView = findViewById<View>(R.id.imagenDerrota) as ImageView
 
 
+
+        musicaOnOff = SonidoGestion.obtenerEstadoSonido(this)
+
+        // --- Iniciar música si estaba activa ---
+        if (musicaOnOff && !SonidoGestion.musicaSonando()) {
+            SonidoGestion.iniciarMusica(this, R.raw.sonido_perdedor, false)
+        }
         imageView.setBackgroundResource(R.drawable.progress_animation_gameover)
         val progressAnimation = imageView.background as AnimationDrawable
         progressAnimation.start()
@@ -92,20 +99,25 @@ class DerrotaActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        musicaOnOff = getIntent().getBooleanExtra("SonidoOn-Off", true)
-
-        mediaPlayer = MediaPlayer.create(this, R.raw.sonido_perdedor)
-        mediaPlayer!!.isLooping = false
-        mediaPlayer!!.setVolume(100f, 100f)
-
-        if (musicaOnOff) {
-            mediaPlayer!!.start()
+//        musicaOnOff = getIntent().getBooleanExtra("SonidoOn-Off", true)
+//
+//        mediaPlayer = MediaPlayer.create(this, R.raw.sonido_perdedor)
+//        mediaPlayer!!.isLooping = false
+//        mediaPlayer!!.setVolume(100f, 100f)
+//
+//        if (musicaOnOff) {
+//            mediaPlayer!!.start()
+//        }
+        if (musicaOnOff && !SonidoGestion.musicaSonando()) {
+            SonidoGestion.iniciarMusica(this, R.raw.sonido_perdedor, false)
         }
     }
 
     override fun onPause() {
         super.onPause()
-        mediaPlayer!!.stop()
+//        mediaPlayer!!.stop()
+//        SonidoGestion.pausarMusica()
+        SonidoGestion.detenerMusica()
     }
 
     /* override fun onBackPressed() {

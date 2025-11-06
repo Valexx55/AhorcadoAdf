@@ -60,8 +60,8 @@
         <item name="android:windowExitTransition">@transition/explode</item>-->
         <!--  Estados Reingreso-Retorno   -->
         <!--  para que no empiece la de entrada hasta que acabe la de salida y vice  -->
-        <item name="android:windowAllowEnterTransitionOverlap">false</item>
-        <item name="android:windowAllowReturnTransitionOverlap">false</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
         <!--  Habilitar superposición de los elementos compartidos entre transiciones  -->
         <item name="android:windowSharedElementsUseOverlay">true</item>
 

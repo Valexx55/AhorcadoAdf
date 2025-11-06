@@ -32,6 +32,23 @@ object SonidoGestion {
         }
     }
 
+    fun iniciarMusica(context: Context, idRecurso: Int, bucle:Boolean) {
+        if (!obtenerEstadoSonido(context)) return
+
+        if (recursoActual != idRecurso) {
+            detenerMusica()
+            mediaPlayer = MediaPlayer.create(context, idRecurso)
+            recursoActual = idRecurso
+            mediaPlayer?.isLooping = bucle
+            mediaPlayer?.setVolume(1.0f, 1.0f)
+            mediaPlayer?.start()
+            sonando = true
+        } else if (mediaPlayer != null && !mediaPlayer!!.isPlaying) {
+            mediaPlayer!!.start()
+            sonando = true
+        }
+    }
+
     fun pausarMusica() {
         if (mediaPlayer?.isPlaying == true) {
             mediaPlayer?.pause()

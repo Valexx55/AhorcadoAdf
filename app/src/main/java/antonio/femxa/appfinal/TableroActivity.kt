@@ -84,6 +84,11 @@ class TableroActivity : AppCompatActivity() {
         // --- Recuperar estado de sonido desde SharedPreferences ---
         musicaOnOff = SonidoGestion.obtenerEstadoSonido(this)
 
+        // --- Iniciar música si estaba activa ---
+        if (musicaOnOff && !SonidoGestion.musicaSonando()) {
+            SonidoGestion.iniciarMusica(this, R.raw.tablero)
+        }
+
         botonSonido = findViewById<ImageButton>(R.id.btnImagen)
 
         // --- Configurar botón de sonido ---
@@ -114,10 +119,6 @@ class TableroActivity : AppCompatActivity() {
             }
         })
 
-        // --- Iniciar música si estaba activa ---
-        if (musicaOnOff && !SonidoGestion.musicaSonando()) {
-            SonidoGestion.iniciarMusica(this, R.raw.tablero)
-        }
 
 
         //palabraOriginal = palabraFactorizada
@@ -454,6 +455,7 @@ class TableroActivity : AppCompatActivity() {
             intent?.putExtra("SonidoOn-Off", SonidoGestion.musicaSonando())
 
             startActivity(intent)
+            finish()
         }
     }
 
@@ -478,6 +480,7 @@ class TableroActivity : AppCompatActivity() {
             Log.d("MIAPP", "Palabra Orignal = $palabraOriginal")
 
             startActivity(intent)
+            finish()
         } else {
             val imageView = findViewById<View>(R.id.imagenes_ahorcado) as ImageView
             imageView.setImageResource(array_pics[contador])

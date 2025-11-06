@@ -31,7 +31,7 @@ class VictoriaActivity : AppCompatActivity() {
         //está soportada desde la versión 1; por lo cual, la animación que consiste en una rotacin de foto
         //sería visible en cualquier dispositivo, carenciendo de sentido este if
         //  LO MISMO PARA DERROTA ACTIVITY: SOBRA
-        imageView.setBackgroundResource(R.drawable.`progress_animation_winner.xml`)
+        imageView.setBackgroundResource(R.drawable.progress_animation_winner)
         val progressAnimation = imageView.background as AnimationDrawable
         progressAnimation.start()
 
