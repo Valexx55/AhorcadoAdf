@@ -2,7 +2,6 @@
 <resources>
 
     <array name="array_categorias">
-        <item></item>
         <item>@array/animales</item>
         <item>@array/deportes</item>
         <item>@array/eñe_palabras</item>
@@ -12,13 +11,9 @@
         <item>@array/internet</item>
         <item>@array/lugares</item>
         <item>@array/peliculas</item>
-
-
-
     </array>
 
     <string-array name="categorias">
-        <item>Selecciona categoría 🧩</item>
         <item>Animales 🦊</item>
         <item>"Deportes 🏅"</item>
         <item>Eñe palabras \uD83C\uDDEA\uD83C\uDDF8</item>
@@ -28,10 +23,8 @@
         <item>Internet 🌐</item>
         <item>Lugares 🗺️</item>
         <item>Películas 🎬</item>
-
-
-
     </string-array>
+
     <string-array name="animales">
         <item>ciervo almizclero</item>
         <item>estrella de mar</item>

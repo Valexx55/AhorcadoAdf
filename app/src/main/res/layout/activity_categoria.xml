@@ -5,19 +5,14 @@
     android:id="@+id/activity_categoria"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CategoriaActivity"
+    tools:context=".categorias.CategoriaActivity"
     android:background="@drawable/pantallainicio">
 
-    <Spinner
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="12dp"
-        android:layout_gravity="center"
-        android:id="@+id/spinner_categorias"
-        android:layout_marginTop="16dp"
-        android:background="@color/spinner_background"
-        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCategorias"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_gravity="center" />
 
 <!-- el atributo ?attr/actionBarSize sirve para que quede justo debajo de la statusbar / actionBar -->
     <ImageButton

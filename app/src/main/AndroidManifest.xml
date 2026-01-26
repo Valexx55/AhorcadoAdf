@@ -44,7 +44,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CategoriaActivity"
+            android:name=".categorias.CategoriaActivity"
             android:configChanges="keyboard|screenSize|orientation"
             android:exported="false"
             android:screenOrientation="portrait" />
