@@ -14,6 +14,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -23,11 +25,11 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import kotlin.random.Random
 
 
-class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
-    private var spCategorias: Spinner? = null
+class CategoriaActivity : AppCompatActivity() {
     private var intent: Intent? = null
     private var musicaOnOff: Boolean = true
     private lateinit var botonSonido: ImageButton
+    private lateinit var recyclerCategorias: RecyclerView
     private var mapaFb : Map<String, List<String>>? = null
     var interstitialAd : InterstitialAd? = null
 
@@ -41,10 +43,10 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
         // --- Recuperar estado de sonido desde SharedPreferences ---
         musicaOnOff = SonidoGestion.obtenerEstadoSonido(this)
 
-        this.spCategorias = findViewById<View>(R.id.spinner_categorias) as Spinner
+        recyclerCategorias = findViewById(R.id.recycler_categorias)
 
         mapaFb = PalabrasRepository.getMapaPalabras()
-        loadSpinnerCategorias()
+        loadRecyclerCategorias()
 
         botonSonido = findViewById<ImageButton>(R.id.btnImagen)
 
@@ -138,20 +140,12 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
         )
     }
 
-    /**
-     * Cada vez que el activity vuelva de una pausa el spinner se coloca en la posicion selecciona una categoria
-     */
     override fun onResume() {
         super.onResume()
 
         if (musicaOnOff && !SonidoGestion.musicaSonando()) {
             SonidoGestion.iniciarMusica(this, R.raw.categoria)
         }
-
-        val spinner = findViewById<View>(R.id.spinner_categorias) as Spinner
-        spinner.setSelection(0)
-
-
     }
 
     override fun onPause() {
@@ -161,85 +155,56 @@ class CategoriaActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
     }
 
     /**
-     * Cargamos el spinner con el array que esta en categorias.xml
+     * Cargamos el recycler con las palabras desde Firebase o el archivo xml, si Firebase no está disponible.
+     * Configura el GridLayoutManager de 2 columnas para mostrar las categorías en 2 columnas
      */
-    fun loadSpinnerCategorias() {
+    fun loadRecyclerCategorias() {
+        var listaCategorias: List<String> = emptyList()
 
-        var adapter: ArrayAdapter<CharSequence>? = null
+        // Cargamos las categorías de Firebase o el xml local
         mapaFb?.let { mapa ->
-            //si tengo info de Firebase
-            val listaCategorias = mapa.keys.toList().toMutableList() // mapa es no nulo
-            //OJO hay que añadir una primera posición falsa, como menú del listado
-            listaCategorias.add(0, "Selecciona categoría \uD83E\uDDE9")
-
-            adapter = ArrayAdapter(
-                this,                                  // Contexto
-                R.layout.spinner_item_dropdown,//android.R.layout.simple_spinner_item,  // Layout base para los ítems
-                listaCategorias.toList()//la hacemos inmutable otra vez                             // Tu lista de Strings
-            )
+            listaCategorias = mapa.keys.toList()
         } ?: run {
-            //si no tengo info de Firebase, tiro de local
-            adapter = ArrayAdapter.createFromResource(this, R.array.categorias, android.R.layout.simple_spinner_item)
-
+            listaCategorias = resources.getStringArray(R.array.categorias).toList()
         }
-        //adapter!!.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        adapter!!.setDropDownViewResource(R.layout.spinner_item_dropdown)
-        spCategorias!!.adapter = adapter
-        spCategorias!!.setOnItemSelectedListener(this)
+
+        // GridLayout con 2 columnas
+        recyclerCategorias.layoutManager = GridLayoutManager(this, 2)
+
+        val adapter = CategoriasAdapter(listaCategorias) { categoria, position ->
+            onCategoriaSelected(categoria, position)
+        }
+
+        recyclerCategorias.adapter = adapter
     }
 
     /**
-     * Cada vez que se cambie el spinner y no sea la posicion 0(selecciona una categoria) carga
-     * el array conrrespondiente de esa categoria, obtiene un string aleatorio de ella
-     * y se redirige a activity_tablero con el string conseguido
-     * @param parent
-     * @param view
-     * @param pos La posicion del array de categorias
-     * @param id
-     */
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+     * Selección de la categoría.
 
+     * @param categoria Nombre de la categoría seleccionada
+     * @param position Posición de la categoría en el RecyclerView
+     */
+    fun onCategoriaSelected(categoria: String, position: Int) {
         var arrayPalabrasSeleccionado: Array<out CharSequence>? = null
 
-        if (pos != 0) {
-
-
-            mapaFb?.let { mapa ->
-                //si tengo info de Firebase
-                //por ser la primera posición ficticia para el títlo del spinner
-                //hay que coger del mapa la posición menos 1, para que coincida
-                var categoriaElegida = mapa.keys.toList().get(pos-1)
-                arrayPalabrasSeleccionado = mapa.get(categoriaElegida)!!.toTypedArray()
-
-            } ?: run {
-                //si no tengo info de Firebase, tiro de local
-                val array_categorias = resources.obtainTypedArray(R.array.array_categorias)
-                arrayPalabrasSeleccionado = array_categorias.getTextArray(pos)
-                array_categorias.recycle()
-
-            }
-
-            val palabra = palabraOculta(arrayPalabrasSeleccionado)
-
-            Log.d("MIAPP", palabra)
-
-
-            intent = Intent(this@CategoriaActivity, TableroActivity::class.java)
-
-            intent!!.putExtra("palabra_clave", palabra)
-
-            val spinner = findViewById<View>(R.id.spinner_categorias) as Spinner
-
-            val aa = spinner.selectedItem.toString()
-            intent!!.putExtra("categoria_seleccionada", aa)
-
-            SonidoGestion.detenerMusica()
-            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-            //startActivity(intent)
+        // Cargamos las categorías de Firebase o el xml local
+        mapaFb?.let { mapa ->
+            arrayPalabrasSeleccionado = mapa[categoria]?.toTypedArray()
+        } ?: run {
+            val arrayCategorias = resources.obtainTypedArray(R.array.array_categorias)
+            arrayPalabrasSeleccionado = arrayCategorias.getTextArray(position)
+            arrayCategorias.recycle()
         }
-    }
 
-    override fun onNothingSelected(parent: AdapterView<*>?) {
+        val palabra = palabraOculta(arrayPalabrasSeleccionado)
+        Log.d("MIAPP", palabra)
+
+        intent = Intent(this@CategoriaActivity, TableroActivity::class.java)
+        intent!!.putExtra("palabra_clave", palabra)
+        intent!!.putExtra("categoria_seleccionada", categoria)
+
+        SonidoGestion.detenerMusica()
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
     }
 
     /**
