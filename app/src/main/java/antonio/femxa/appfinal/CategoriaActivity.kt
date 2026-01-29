@@ -1,4 +1,4 @@
-package antonio.femxa.appfinal.categorias
+package antonio.femxa.appfinal
 
 import android.app.ActivityOptions
 import android.content.Intent
@@ -12,12 +12,6 @@ import androidx.core.view.WindowCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import antonio.femxa.appfinal.CategoriasAdapter
-import antonio.femxa.appfinal.MainActivity
-import antonio.femxa.appfinal.PalabrasRepository
-import antonio.femxa.appfinal.R
-import antonio.femxa.appfinal.SonidoGestion
-import antonio.femxa.appfinal.TableroActivity
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
