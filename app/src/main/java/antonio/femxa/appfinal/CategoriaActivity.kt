@@ -1,21 +1,18 @@
-package antonio.femxa.appfinal
-
+package antonio.femxa.appfinal.categorias
 
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.ImageButton
-import android.widget.Spinner
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import antonio.femxa.appfinal.CategoriasAdapter
 import antonio.femxa.appfinal.MainActivity
 import antonio.femxa.appfinal.PalabrasRepository
 import antonio.femxa.appfinal.R
@@ -160,6 +157,8 @@ class CategoriaActivity : AppCompatActivity() {
     }
 
     /**
+<<<<<<< HEAD:app/src/main/java/antonio/femxa/appfinal/categorias/CategoriaActivity.kt
+=======
      * Cargamos el recycler con las palabras desde Firebase o el archivo xml, si Firebase no está disponible.
      * Configura el GridLayoutManager de 2 columnas para mostrar las categorías en 2 columnas
      */
@@ -174,14 +173,50 @@ class CategoriaActivity : AppCompatActivity() {
         }
 
         // GridLayout con 2 columnas
-        recyclerCategorias.layoutManager = GridLayoutManager(this, 2)
+        //recyclerCategorias.layoutManager = GridLayoutManager(this, 2)
+        recyclerCategorias.layoutManager = LinearLayoutManager(
+            this,
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+
+        //PagerSnapHelper().attachToRecyclerView(recyclerCategorias)
+
 
         val adapter = CategoriasAdapter(listaCategorias) { categoria, position ->
             onCategoriaSelected(categoria, position)
         }
 
         recyclerCategorias.adapter = adapter
+
+       val centerPosition = adapter.itemCount / 2
+
+
+
+        LinearSnapHelper().attachToRecyclerView(recyclerCategorias)
+
+        recyclerCategorias.post {
+            recyclerCategorias.scrollToPosition(centerPosition)
+        }
+
+        animacionRecyclerMovimiento(recyclerCategorias)
+
     }
+    //"Efecto Nudge"
+    fun animacionRecyclerMovimiento(recyclerView: RecyclerView) {
+        val density = recyclerView.resources.displayMetrics.density
+        val nudgePx = (10 * density).toInt() // 10dp
+
+        recyclerView.postDelayed({
+            recyclerView.smoothScrollBy(nudgePx, 0)
+
+            recyclerView.postDelayed({
+                recyclerView.smoothScrollBy(-nudgePx, 0)
+            }, 220)
+
+        }, 400)
+    }
+
 
     /**
      * Selección de la categoría.
@@ -213,6 +248,7 @@ class CategoriaActivity : AppCompatActivity() {
     }
 
     /**
+>>>>>>> origin/feature/yuliia_recycler:app/src/main/java/antonio/femxa/appfinal/CategoriaActivity.kt
      * Dado un array de strings te devuelve un string aleatorio de ese array
      * @param array_especifico
      * @return
@@ -220,7 +256,7 @@ class CategoriaActivity : AppCompatActivity() {
     fun palabraOculta(array_especifico: Array<out CharSequence>?): String {
         var palabra: String? = null
 
-            palabra = array_especifico?.random(Random(System.nanoTime())).toString()
+        palabra = array_especifico?.random(Random(System.nanoTime())).toString()
 
         return palabra
     }

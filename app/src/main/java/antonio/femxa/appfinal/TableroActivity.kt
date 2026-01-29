@@ -23,7 +23,7 @@ import java.util.Locale
 import android.view.ContextThemeWrapper
 import android.view.WindowMetrics
 import androidx.activity.enableEdgeToEdge
-import antonio.femxa.appfinal.categorias.CategoriaActivity
+import antonio.femxa.appfinal.CategoriaActivity
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
