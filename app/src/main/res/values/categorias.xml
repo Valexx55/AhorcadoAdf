@@ -18,7 +18,7 @@
     </array>
 
     <string-array name="categorias">
-        <item>Selecciona categoría 🧩</item>
+        <!-- <item>Selecciona categoría 🧩</item> -->
         <item>Animales 🦊</item>
         <item>"Deportes 🏅"</item>
         <item>Eñe palabras \uD83C\uDDEA\uD83C\uDDF8</item>

@@ -21,6 +21,7 @@ import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
+import antonio.femxa.appfinal.CategoriaActivity
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
