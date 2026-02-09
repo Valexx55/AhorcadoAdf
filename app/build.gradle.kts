@@ -12,8 +12,8 @@ android {
         applicationId = "antonio.femxa.appfinal"
         minSdk = 23
         targetSdk = 36
-        versionCode = 6
-        versionName = "3.1 RPS"
+        versionCode = 7
+        versionName = "3.2 RPS"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
